@@ -471,12 +471,30 @@
 
     /* ── Responsive ── */
     @media (max-width: 700px) {
-      .slide { padding: 72px 20px 72px; }
+      .top-nav { padding: 14px 20px; }
+      .slide { padding: 64px 18px 76px; }
+      .slide-inner { max-width: 100%; }
+      .slide-h1 { font-size: 36px; }
+      .slide-h2 { font-size: 22px; margin-bottom: 20px; }
+      .sub-text { font-size: 14px; margin-bottom: 24px; }
+      .eyebrow { margin-bottom: 12px; }
+
       .cards-grid.c2, .cards-grid.c3 { grid-template-columns: 1fr; }
-      .two-col { grid-template-columns: 1fr; }
-      .stats-row { grid-template-columns: 1fr 1fr; }
+      .two-col { grid-template-columns: 1fr; gap: 16px; }
+      .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+      .stat-val { font-size: 20px; }
+
       .flow-steps { flex-direction: column; gap: 8px; }
       .flow-step::after { display: none; }
+      .flow-box { margin: 0; }
+
+      .comp-row { flex-direction: column; gap: 6px; }
+      .code-block { font-size: 11px; padding: 14px 16px; overflow-x: auto; white-space: pre; }
+
+      .controls { bottom: 16px; gap: 10px; }
+      .ctrl-btn { width: 36px; height: 36px; }
+      .dot { width: 5px; height: 5px; }
+      .dot.on { width: 16px; }
     }
   </style>
 </head>
@@ -485,7 +503,7 @@
 <div class="progress-bar" id="progress"></div>
 
 <nav class="top-nav">
-  <a href="./" class="back-link">
+  <a href="index.html" class="back-link">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
       <polyline points="9 2 4 7 9 12"/>
     </svg>
@@ -512,7 +530,7 @@
   <div class="slide" data-slide="1">
     <div class="slide-inner">
       <div class="eyebrow">Contexte</div>
-      <h2 class="slide-h2">Anthropic — <em>l'entreprise</em></h2>
+      <h2 class="slide-h2">Anthropic</h2>
       <div class="stats-row">
         <div class="stat-box">
           <div class="stat-val">2021</div>

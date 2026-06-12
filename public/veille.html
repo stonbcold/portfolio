@@ -3,857 +3,422 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Veille Technologique — Samuel Gomes</title>
+  <title>Veille — Anthropic · Samuel Gomes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg: #0f0f0e;
       --surface: #181816;
-      --surface2: #202020;
       --accent: #a7abb0;
       --accent-soft: #c8ccd1;
       --ink: #f5f3ef;
       --ink-soft: #7a7974;
+      --ink-muted: #4a4946;
       --border: rgba(167,171,176,0.1);
     }
 
-    html {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      scroll-behavior: smooth;
-    }
+    html { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
 
-    body {
-      min-height: 100vh;
-    }
-
-    /* ── Scroll progress ── */
-    .scroll-progress {
-      position: fixed;
-      top: 0; left: 0;
-      height: 2px;
-      background: var(--accent);
-      width: 0;
-      z-index: 100;
+    /* ── Scroll bar ── */
+    .scroll-bar {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--accent); width: 0; z-index: 100;
       transition: width .1s linear;
     }
 
     /* ── Nav ── */
-    .top-nav {
-      position: sticky;
-      top: 0;
+    nav {
+      position: sticky; top: 0;
       background: rgba(15,15,14,.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 16px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       z-index: 50;
     }
 
-    .back-link {
-      color: var(--ink-soft);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .back {
+      color: var(--ink-soft); text-decoration: none; font-size: 13px;
+      font-weight: 500; display: flex; align-items: center; gap: 6px;
       transition: color .2s;
     }
-    .back-link:hover { color: var(--ink); }
+    .back:hover { color: var(--ink); }
 
-    .nav-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-soft);
-    }
+    .nav-tag { font-size: 12px; color: var(--ink-muted); font-weight: 500; }
 
     /* ── Layout ── */
-    .content {
-      max-width: 960px;
+    main {
+      max-width: 720px;
       margin: 0 auto;
-      padding: 64px 48px 120px;
+      padding: 72px 48px 120px;
     }
 
-    /* ── Hero ── */
-    .page-hero {
-      margin-bottom: 72px;
-      padding-bottom: 48px;
-      border-bottom: 1px solid var(--border);
+    /* ── Header ── */
+    .doc-header { margin-bottom: 64px; }
+
+    .doc-meta {
+      font-size: 11px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 20px;
+      display: flex; gap: 16px; align-items: center;
     }
 
-    .hero-eyebrow {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--accent);
+    .doc-meta span { color: var(--ink-muted); font-weight: 400; letter-spacing: 0; text-transform: none; font-size: 12px; }
+
+    .doc-title {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700; letter-spacing: -.03em; line-height: 1.05;
       margin-bottom: 20px;
     }
 
-    .page-title {
-      font-size: clamp(36px, 5vw, 64px);
-      font-weight: 700;
-      letter-spacing: -.04em;
-      line-height: 1;
+    .doc-title em { font-style: italic; color: var(--accent-soft); }
+
+    .doc-intro {
+      font-size: 16px; color: var(--ink-soft); font-weight: 300;
+      line-height: 1.7; border-left: 2px solid var(--border);
+      padding-left: 20px;
+    }
+
+    /* ── Sections ── */
+    .doc-section { margin-bottom: 56px; }
+
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: clamp(20px, 2.5vw, 26px);
+      font-weight: 700; letter-spacing: -.02em; line-height: 1.2;
       margin-bottom: 20px;
-    }
-
-    .page-title em {
-      font-style: italic;
-      color: var(--accent-soft);
-    }
-
-    .page-sub {
-      font-size: 17px;
-      color: var(--ink-soft);
-      font-weight: 300;
-      line-height: 1.65;
-      max-width: 580px;
-      margin-bottom: 28px;
-    }
-
-    .hero-badges {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      padding: 5px 14px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      font-size: 12px;
-      color: var(--ink-soft);
-      font-weight: 500;
-    }
-
-    /* ── Section ── */
-    .section {
-      margin-bottom: 64px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .section-num {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      flex-shrink: 0;
-    }
-
-    .section-title {
-      font-size: clamp(22px, 2.5vw, 30px);
-      font-weight: 700;
-      letter-spacing: -.02em;
-      line-height: 1.2;
-    }
-
-    /* ── Cards ── */
-    .cards-grid {
-      display: grid;
-      gap: 14px;
-    }
-
-    .cards-grid.c2 { grid-template-columns: 1fr 1fr; }
-    .cards-grid.c3 { grid-template-columns: repeat(3, 1fr); }
-    .cards-grid.c4 { grid-template-columns: repeat(4, 1fr); }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-    }
-
-    .card-icon {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-
-    .card-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-
-    .card-text {
-      font-size: 13px;
-      color: var(--ink-soft);
-      line-height: 1.65;
-    }
-
-    /* ── Trépied ── */
-    .tripod {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    .tripod-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .tripod-icon {
-      font-size: 28px;
-      margin-bottom: 12px;
-    }
-
-    .tripod-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .tripod-text {
-      font-size: 12px;
-      color: var(--ink-soft);
-      line-height: 1.6;
-    }
-
-    /* ── Step flow ── */
-    .steps-flow {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .step-item {
-      padding: 22px 18px;
-      border-right: 1px solid var(--border);
-      position: relative;
-    }
-
-    .step-item:last-child { border-right: none; }
-
-    .step-num {
-      font-size: 32px;
-      font-weight: 700;
-      color: rgba(167,171,176,.15);
-      letter-spacing: -.04em;
-      line-height: 1;
-      margin-bottom: 10px;
-    }
-
-    .step-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .step-text {
-      font-size: 12px;
-      color: var(--ink-soft);
-      line-height: 1.55;
-    }
-
-    /* ── Tools table ── */
-    .tools-table {
-      width: 100%;
-      border-collapse: collapse;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .tools-table th,
-    .tools-table td {
-      padding: 14px 18px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
-
-    .tools-table th {
-      background: var(--surface2);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .tools-table tr:last-child td { border-bottom: none; }
-
-    .tools-table td:first-child {
-      font-weight: 600;
-      color: var(--ink);
-      width: 35%;
-    }
-
-    .tools-table td:last-child {
-      color: var(--ink-soft);
-    }
-
-    /* ── Sources ── */
-    .sources-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .source-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-    }
-
-    .source-block-title {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 14px;
-      padding-bottom: 10px;
+      padding-bottom: 16px;
       border-bottom: 1px solid var(--border);
     }
 
-    .source-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 10px;
-      font-size: 13px;
+    p {
+      font-size: 15px; line-height: 1.75;
+      color: var(--ink-soft); margin-bottom: 14px;
     }
 
-    .source-item::before {
-      content: '→';
-      color: var(--accent);
-      flex-shrink: 0;
+    p strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Fact row ── */
+    .facts {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; margin-bottom: 24px;
+    }
+
+    .fact {
+      background: var(--surface); padding: 18px 16px;
+    }
+
+    .fact-val {
+      font-size: 22px; font-weight: 700; color: var(--accent-soft);
+      letter-spacing: -.03em; line-height: 1; margin-bottom: 5px;
+    }
+
+    .fact-label { font-size: 11px; color: var(--ink-muted); line-height: 1.4; }
+
+    /* ── List ── */
+    .doc-list {
+      list-style: none; display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .doc-list li {
+      display: flex; gap: 12px; font-size: 14px;
+      color: var(--ink-soft); line-height: 1.6;
+    }
+
+    .doc-list li::before {
+      content: '—'; color: var(--accent); flex-shrink: 0;
       margin-top: 1px;
     }
 
-    .source-item span { color: var(--ink-soft); font-size: 12px; display: block; }
+    .doc-list li strong { color: var(--ink); }
 
-    /* ── Fiche structure ── */
-    .fiche-steps {
-      counter-reset: fiche;
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .fiche-steps li {
-      counter-increment: fiche;
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-    }
-
-    .fiche-steps li::before {
-      content: counter(fiche, decimal-leading-zero);
-      min-width: 28px;
-      height: 28px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--accent);
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .fiche-steps li strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 3px;
-    }
-
-    .fiche-steps li span {
-      font-size: 12px;
-      color: var(--ink-soft);
-      line-height: 1.55;
-    }
-
-    /* ── Do / Don't ── */
-    .dos-donts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .do-col {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .do-header {
-      padding: 12px 16px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .dont-header { color: #a0624a; }
-    .do-header-ok { color: #6a9e6a; }
-
-    .do-body {
-      padding: 14px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .do-item {
-      font-size: 12px;
-      color: var(--ink-soft);
-      line-height: 1.55;
-      padding-left: 12px;
-      border-left: 2px solid var(--border);
-    }
-
-    /* ── Conseil box ── */
-    .conseil-box {
-      background: var(--surface);
-      border: 1px solid rgba(167,171,176,.2);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 12px 12px 0;
-      padding: 16px 20px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--ink-soft);
+    /* ── Note box ── */
+    .note {
+      background: var(--surface); border-left: 2px solid var(--accent);
+      border-radius: 0 10px 10px 0; padding: 14px 18px;
+      font-size: 13px; color: var(--ink-soft); line-height: 1.65;
       margin-top: 16px;
     }
 
-    .conseil-box strong { color: var(--ink); }
+    .note strong { color: var(--ink); }
 
-    /* ── Types of veille ── */
-    .type-item {
-      display: flex;
-      gap: 16px;
-      padding: 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 10px;
-      align-items: flex-start;
+    /* ── Models table ── */
+    .model-row {
+      display: grid; grid-template-columns: 120px 1fr;
+      gap: 0; border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; margin-bottom: 12px;
     }
 
-    .type-num {
-      min-width: 28px;
-      height: 28px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--accent);
-      flex-shrink: 0;
+    .model-name {
+      background: var(--surface); padding: 14px 16px;
+      font-size: 14px; font-weight: 600; color: var(--ink);
+      display: flex; align-items: center;
+      border-right: 1px solid var(--border);
     }
 
-    .type-body strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
+    .model-desc {
+      padding: 14px 16px; font-size: 13px;
+      color: var(--ink-soft); line-height: 1.55;
+      display: flex; align-items: center;
     }
 
-    .type-body p {
-      font-size: 12px;
-      color: var(--ink-soft);
-      line-height: 1.55;
+    /* ── Sources ── */
+    .sources-list {
+      display: flex; flex-direction: column; gap: 8px;
     }
 
-    .type-body .ex {
-      display: inline-block;
-      margin-top: 6px;
-      font-size: 11px;
-      color: var(--accent);
-      background: rgba(167,171,176,.06);
-      border: 1px solid rgba(167,171,176,.12);
-      padding: 2px 8px;
-      border-radius: 4px;
+    .source-item {
+      display: flex; align-items: baseline; gap: 10px;
+      padding: 10px 14px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: 13px;
     }
+
+    .source-item .source-name { font-weight: 500; color: var(--ink); flex-shrink: 0; }
+    .source-item .source-desc { color: var(--ink-muted); font-size: 12px; }
 
     /* ── Footer ── */
-    .page-footer {
-      text-align: center;
-      padding: 32px 0 0;
+    footer {
       border-top: 1px solid var(--border);
-      color: var(--ink-soft);
-      font-size: 12px;
-      line-height: 1.7;
+      padding-top: 32px; text-align: center;
+      font-size: 12px; color: var(--ink-muted); line-height: 1.8;
     }
 
     /* ── Responsive ── */
-    @media (max-width: 700px) {
-      .top-nav { padding: 14px 20px; }
-      .content { padding: 40px 20px 80px; }
-      .cards-grid.c2, .cards-grid.c3, .cards-grid.c4 { grid-template-columns: 1fr; }
-      .tripod, .steps-flow, .sources-grid, .dos-donts { grid-template-columns: 1fr; }
-      .step-item { border-right: none; border-bottom: 1px solid var(--border); }
-      .step-item:last-child { border-bottom: none; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      main { padding: 40px 20px 80px; }
+      .facts { grid-template-columns: 1fr 1fr; }
+      .facts .fact:last-child { grid-column: 1 / -1; }
+      .model-row { grid-template-columns: 1fr; }
+      .model-name { border-right: none; border-bottom: 1px solid var(--border); }
+      .nav-tag { display: none; }
     }
   </style>
 </head>
 <body>
 
-<div class="scroll-progress" id="scroll-prog"></div>
+<div class="scroll-bar" id="sb"></div>
 
-<nav class="top-nav">
-  <a href="./" class="back-link">
+<nav>
+  <a href="index.html" class="back">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
       <polyline points="9 2 4 7 9 12"/>
     </svg>
     Samuel Gomes
   </a>
-  <span class="nav-label">Veille Technologique · BTS SIO 2026</span>
+  <span class="nav-tag">Veille technologique · BTS SIO 2026</span>
 </nav>
 
-<main class="content">
+<main>
 
-  <!-- Hero -->
-  <header class="page-hero">
-    <div class="hero-eyebrow">Compétence C6 — Développement professionnel</div>
-    <h1 class="page-title">Veille <em>technologique</em></h1>
-    <p class="page-sub">
-      Processus continu de collecte, d'analyse et de diffusion des informations sur les évolutions
-      du secteur informatique — pour anticiper les changements et adapter ses pratiques.
-    </p>
-    <div class="hero-badges">
-      <span class="badge">BTS SIO SLAM</span>
-      <span class="badge">Compétence C6</span>
-      <span class="badge">Epreuve E5</span>
-      <span class="badge">2025 – 2026</span>
+  <header class="doc-header">
+    <div class="doc-meta">
+      Veille technologique <span>· Compétence C6 · BTS SIO SLAM · Juin 2026</span>
     </div>
+    <h1 class="doc-title">Anthropic &amp; <em>l'IA de confiance</em></h1>
+    <p class="doc-intro">
+      Cette veille porte sur Anthropic, entreprise spécialisée en sécurité de l'IA,
+      créatrice du modèle Claude et de l'API éponyme. En tant que développeur ayant
+      travaillé directement avec cette technologie, j'ai suivi de près ses évolutions
+      depuis 2024.
+    </p>
   </header>
 
-  <!-- 1. Définition -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">01</span>
-      <h2 class="section-title">Qu'est-ce que la veille technologique ?</h2>
-    </div>
-    <div class="tripod">
-      <div class="tripod-item">
-        <div class="tripod-title">Surveiller</div>
-        <div class="tripod-text">Observer en permanence les nouvelles technologies, tendances et pratiques du secteur.</div>
+  <!-- 1. L'entreprise -->
+  <section class="doc-section">
+    <div class="section-label">01 — Contexte</div>
+    <h2>Anthropic, l'entreprise</h2>
+    <div class="facts">
+      <div class="fact">
+        <div class="fact-val">2021</div>
+        <div class="fact-label">Fondée à San Francisco</div>
       </div>
-      <div class="tripod-item">
-        <div class="tripod-title">Analyser</div>
-        <div class="tripod-text">Trier les informations, évaluer la fiabilité des sources et comprendre leur portée réelle.</div>
+      <div class="fact">
+        <div class="fact-val">$18B+</div>
+        <div class="fact-label">Valorisation (2025)</div>
       </div>
-      <div class="tripod-item">
-        <div class="tripod-title">Partager</div>
-        <div class="tripod-text">Restituer les résultats de manière structurée — portfolio, fiches, présentations.</div>
+      <div class="fact">
+        <div class="fact-val">CAI</div>
+        <div class="fact-label">Constitutional AI</div>
       </div>
     </div>
-    <div class="conseil-box">
-      <strong>Pourquoi c'est crucial en BTS SIO :</strong> La veille est la compétence C6 du Bloc 1,
-      directement évaluée lors de l'épreuve E5. Elle prouve votre curiosité et votre implication dans
-      votre développement professionnel.
+    <p>
+      Anthropic est fondée en 2021 par <strong>Dario Amodei</strong> (ex-VP Recherche OpenAI)
+      et <strong>Daniela Amodei</strong>, accompagnés d'une équipe de chercheurs issus du même
+      laboratoire. Leur objectif : développer une intelligence artificielle <strong>sûre,
+      fiable et interprétable</strong>, dans un contexte où les modèles de grande taille
+      soulèvent des questions croissantes de contrôle et d'alignement.
+    </p>
+    <p>
+      L'entreprise a rapidement attiré des investissements majeurs de <strong>Google</strong>
+      et d'<strong>Amazon AWS</strong>, qui ont intégré Claude dans leurs plateformes cloud
+      respectives (Vertex AI et Amazon Bedrock). Elle est aujourd'hui l'un des acteurs
+      centraux de la recherche en IA générative.
+    </p>
+  </section>
+
+  <!-- 2. Constitutional AI -->
+  <section class="doc-section">
+    <div class="section-label">02 — Innovation</div>
+    <h2>Constitutional AI — l'alignement par principes</h2>
+    <p>
+      La principale contribution scientifique d'Anthropic est la méthode
+      <strong>Constitutional AI (CAI)</strong>. Contrairement au RLHF classique
+      (Reinforcement Learning from Human Feedback), le CAI fait apprendre au modèle
+      un ensemble de <strong>principes éthiques explicites</strong> — une "constitution" —
+      lui permettant d'évaluer et corriger ses propres réponses.
+    </p>
+    <ul class="doc-list">
+      <li><strong>Utile :</strong> répondre efficacement aux demandes légitimes.</li>
+      <li><strong>Inoffensif :</strong> refuser ou reformuler les contenus dangereux.</li>
+      <li><strong>Honnête :</strong> ne pas inventer, reconnaître ses limites.</li>
+    </ul>
+    <p>
+      Cette approche réduit la dépendance aux annotations humaines massives et produit
+      des modèles plus cohérents dans leurs comportements à l'échelle.
+    </p>
+    <div class="note">
+      <strong>Impact métier :</strong> pour un développeur SLAM, comprendre l'alignement
+      des LLM est fondamental pour concevoir des prompts robustes et anticiper les limites
+      de refus d'un modèle en production.
     </div>
   </section>
 
-  <!-- 2. Les 4 types -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">02</span>
-      <h2 class="section-title">Les 4 types de veille</h2>
+  <!-- 3. Claude -->
+  <section class="doc-section">
+    <div class="section-label">03 — Le produit</div>
+    <h2>La famille Claude</h2>
+    <p>
+      Claude est le nom de la famille de modèles d'Anthropic. Chaque version propose
+      un équilibre différent entre vitesse, coût et capacité de raisonnement.
+    </p>
+    <div class="model-row">
+      <div class="model-name">Haiku</div>
+      <div class="model-desc">Le plus rapide et économique — idéal pour les applications temps réel et les tâches simples.</div>
     </div>
-    <div class="type-item">
-      <div class="type-num">01</div>
-      <div class="type-body">
-        <strong>Veille technologique</strong>
-        <p>Nouveaux langages, frameworks, outils, IA, architectures cloud.</p>
-        <span class="ex">Ex: sortie de PHP 8.4 · Docker Desktop · React 19 · Claude API</span>
-      </div>
+    <div class="model-row">
+      <div class="model-name">Sonnet</div>
+      <div class="model-desc">Modèle de production équilibré — excellent rapport capacité / coût pour la majorité des cas d'usage.</div>
     </div>
-    <div class="type-item">
-      <div class="type-num">02</div>
-      <div class="type-body">
-        <strong>Veille sécuritaire</strong>
-        <p>Nouvelles failles de sécurité (CVE), correctifs, alertes et bonnes pratiques.</p>
-        <span class="ex">Ex: alertes CERT-FR · OWASP Top 10 · CVE Details</span>
-      </div>
+    <div class="model-row">
+      <div class="model-name">Opus</div>
+      <div class="model-desc">Le plus puissant — raisonnement complexe, analyse approfondie, tâches multi-étapes exigeantes.</div>
     </div>
-    <div class="type-item">
-      <div class="type-num">03</div>
-      <div class="type-body">
-        <strong>Veille juridique</strong>
-        <p>Évolutions légales liées au numérique — conformité et réglementation.</p>
-        <span class="ex">Ex: directives CNIL · RGPD · AI Act de l'UE</span>
-      </div>
-    </div>
-    <div class="type-item">
-      <div class="type-num">04</div>
-      <div class="type-body">
-        <strong>Veille concurrentielle</strong>
-        <p>Positionnement des grands acteurs du marché IT et nouvelles offres.</p>
-        <span class="ex">Ex: annonces AWS re:Invent · innovations GitHub Copilot · OpenAI vs Anthropic</span>
-      </div>
+    <p style="margin-top:16px;">
+      La version <strong>Claude Sonnet 4.6</strong> (2026) supporte une fenêtre de contexte
+      de <strong>200 000 tokens</strong>, ce qui permet d'analyser des documents entiers
+      ou de maintenir de très longs historiques de conversation.
+    </p>
+  </section>
+
+  <!-- 4. L'API -->
+  <section class="doc-section">
+    <div class="section-label">04 — Écosystème</div>
+    <h2>L'API Claude et le développement d'agents</h2>
+    <p>
+      L'API Claude expose une interface REST simple utilisée pour intégrer les modèles
+      dans des applications tierces. Elle est disponible via les SDK Python et Node.js
+      officiels d'Anthropic.
+    </p>
+    <ul class="doc-list">
+      <li><strong>Messages API :</strong> gestion des conversations multi-tours avec system prompt.</li>
+      <li><strong>Tool Use :</strong> le modèle peut appeler des fonctions externes (recherche, calcul, lecture de fichiers).</li>
+      <li><strong>Streaming :</strong> réponses token par token pour une UX réactive.</li>
+      <li><strong>Vision :</strong> analyse d'images, captures d'écran, diagrammes.</li>
+      <li><strong>Extended Thinking :</strong> raisonnement interne visible avant la réponse finale.</li>
+    </ul>
+    <p>
+      Ces fonctionnalités permettent de construire des <strong>agents autonomes</strong> —
+      des programmes capables de planifier, d'agir sur des outils et d'itérer jusqu'à
+      accomplir une tâche complexe sans intervention humaine. C'est l'approche que j'ai
+      mise en œuvre dans mon projet.
+    </p>
+    <div class="note">
+      <strong>Lien avec mon projet :</strong> j'ai utilisé l'API Claude pour construire
+      un agent avec boucle de raisonnement autonome (tool use loop), déployé via Flask.
+      Cette expérience directe m'a permis de comprendre concrètement les enjeux
+      de latence, de gestion des tokens et de conception des schémas d'outils.
     </div>
   </section>
 
-  <!-- 3. Méthode -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">03</span>
-      <h2 class="section-title">La méthode en 4 étapes</h2>
-    </div>
-    <div class="steps-flow">
-      <div class="step-item">
-        <div class="step-num">01</div>
-        <div class="step-title">Définir</div>
-        <div class="step-text">Choisir des thèmes précis selon son option (SISR ou SLAM) et ses centres d'intérêt.</div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">02</div>
-        <div class="step-title">Collecter</div>
-        <div class="step-text">Automatiser la réception — flux RSS, newsletters, réseaux professionnels.</div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">03</div>
-        <div class="step-title">Analyser</div>
-        <div class="step-text">Vérifier la fiabilité, croiser les sources, distinguer les tendances de fond du buzz.</div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">04</div>
-        <div class="step-title">Diffuser</div>
-        <div class="step-text">Rédiger une fiche synthétique et l'intégrer au portfolio — section C6.</div>
-      </div>
-    </div>
-    <div class="conseil-box">
-      <strong>Conseil d'organisation :</strong> consacrer <strong>15 à 20 minutes par semaine</strong> à la veille.
-      La régularité prime sur la quantité.
+  <!-- 5. Contexte réglementaire -->
+  <section class="doc-section">
+    <div class="section-label">05 — Réglementation</div>
+    <h2>Contexte juridique et AI Act</h2>
+    <p>
+      L'Union Européenne a adopté en 2024 l'<strong>AI Act</strong>, premier cadre
+      réglementaire au monde pour l'intelligence artificielle. Il classe les systèmes
+      d'IA par niveau de risque et impose des obligations de transparence, de traçabilité
+      et d'évaluation aux fournisseurs comme aux utilisateurs.
+    </p>
+    <ul class="doc-list">
+      <li>Les <strong>modèles à usage général</strong> (GPAI) comme Claude sont soumis à des exigences de documentation et d'évaluation des risques.</li>
+      <li>Les applications à <strong>haut risque</strong> (recrutement, crédit, santé) nécessitent un contrôle humain obligatoire.</li>
+      <li>Le <strong>RGPD</strong> s'applique dès que des données personnelles transitent dans les requêtes API.</li>
+    </ul>
+    <div class="note">
+      <strong>Impact professionnel :</strong> tout développeur déployant une solution
+      basée sur un LLM en Europe doit maîtriser ces obligations — notamment la
+      minimisation des données et la traçabilité des décisions automatisées.
     </div>
   </section>
 
-  <!-- 4. Outils -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">04</span>
-      <h2 class="section-title">La boîte à outils</h2>
-    </div>
-    <table class="tools-table">
-      <thead>
-        <tr>
-          <th>Catégorie</th>
-          <th>Outils recommandés</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Agrégateurs RSS</td>
-          <td>Feedly (organisation des flux) · Inoreader (filtres avancés) · Netvibes</td>
-        </tr>
-        <tr>
-          <td>Newsletters & Alertes</td>
-          <td>Google Alerts (mots-clés) · TLDR Newsletter · Hacker Newsletter</td>
-        </tr>
-        <tr>
-          <td>Réseaux & Communautés</td>
-          <td>LinkedIn (suivi d'experts) · Reddit r/programming, r/sysadmin · Twitter/X CERT-FR, ANSSI</td>
-        </tr>
-        <tr>
-          <td>Archivage & Base de savoir</td>
-          <td>Notion (centraliser) · Pocket (lecture différée) · Zotero (références)</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- 5. Sources -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">05</span>
-      <h2 class="section-title">Sources recommandées</h2>
-    </div>
-    <div class="sources-grid">
-      <div class="source-block">
-        <div class="source-block-title">Option SLAM — Dev & IA</div>
-        <div class="source-item">Dev.to · Hacker News <span>Articles de la communauté dev</span></div>
-        <div class="source-item">GitHub Trending <span>Projets open-source populaires</span></div>
-        <div class="source-item">MDN Web Docs · CSS-Tricks <span>Références web front-end</span></div>
-        <div class="source-item">OWASP Top 10 <span>Sécurité applicative</span></div>
-        <div class="source-item">docs.anthropic.com <span>Évolutions de l'API Claude</span></div>
+  <!-- 6. Sources -->
+  <section class="doc-section">
+    <div class="section-label">06 — Sources</div>
+    <h2>Sources utilisées</h2>
+    <div class="sources-list">
+      <div class="source-item">
+        <span class="source-name">docs.anthropic.com</span>
+        <span class="source-desc">Documentation officielle de l'API Claude</span>
       </div>
-      <div class="source-block">
-        <div class="source-block-title">Option SISR — Sécurité</div>
-        <div class="source-item">ANSSI / CERT-FR <span>Alertes officielles — cert.ssi.gouv.fr</span></div>
-        <div class="source-item">CVE Details <span>Base de données vulnérabilités</span></div>
-        <div class="source-item">Cisco Talos · Linuxfr.org <span>Analyses techniques</span></div>
-        <div class="source-item">Server Fault <span>Administration système</span></div>
+      <div class="source-item">
+        <span class="source-name">Anthropic Academy</span>
+        <span class="source-desc">Parcours de certification et ressources pédagogiques</span>
       </div>
-      <div class="source-block" style="grid-column:1/-1;">
-        <div class="source-block-title">Sources communes</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:4px;">
-          <span style="font-size:13px;color:var(--ink-soft);">Le Monde Informatique</span>
-          <span style="color:var(--border);">·</span>
-          <span style="font-size:13px;color:var(--ink-soft);">ZDNet FR</span>
-          <span style="color:var(--border);">·</span>
-          <span style="font-size:13px;color:var(--ink-soft);">Numerama</span>
-          <span style="color:var(--border);">·</span>
-          <span style="font-size:13px;color:var(--ink-soft);">CNIL</span>
-          <span style="color:var(--border);">·</span>
-          <span style="font-size:13px;color:var(--ink-soft);">Journal du Net</span>
-        </div>
+      <div class="source-item">
+        <span class="source-name">GitHub — anthropic-cookbook</span>
+        <span class="source-desc">Exemples pratiques d'intégration de l'API</span>
+      </div>
+      <div class="source-item">
+        <span class="source-name">Anthropic Research Blog</span>
+        <span class="source-desc">Articles de recherche sur le Constitutional AI et l'alignement</span>
+      </div>
+      <div class="source-item">
+        <span class="source-name">EUR-Lex — AI Act 2024</span>
+        <span class="source-desc">Texte officiel du règlement européen sur l'IA</span>
+      </div>
+      <div class="source-item">
+        <span class="source-name">CNIL — IA et données personnelles</span>
+        <span class="source-desc">Recommandations sur l'usage des LLM en conformité RGPD</span>
       </div>
     </div>
   </section>
 
-  <!-- 6. Rédiger une fiche -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">06</span>
-      <h2 class="section-title">Structure d'une fiche de veille</h2>
-    </div>
-    <ol class="fiche-steps">
-      <li>
-        <strong>Titre</strong>
-        <span>Court, précis et explicite — identifie immédiatement le sujet.</span>
-      </li>
-      <li>
-        <strong>Date & Source</strong>
-        <span>Date de publication, nom de l'auteur et URL d'origine complète.</span>
-      </li>
-      <li>
-        <strong>Résumé</strong>
-        <span>3 à 5 lignes maximum, rédigées avec vos propres mots — pas de copier-coller.</span>
-      </li>
-      <li>
-        <strong>Analyse métier</strong>
-        <span>Quel est l'impact pour votre option SLAM / SISR ou pour le métier d'informaticien ?</span>
-      </li>
-      <li>
-        <strong>Mots-clés</strong>
-        <span>2 à 4 tags thématiques pour classer et retrouver la fiche facilement.</span>
-      </li>
-    </ol>
-    <div class="conseil-box" style="margin-top:20px;">
-      <strong>À l'oral E5 :</strong> faites des ponts concrets — expliquez comment une découverte de veille
-      a influencé un choix technique dans un de vos projets. Le jury valorise la cohérence entre veille et pratique.
-    </div>
-  </section>
-
-  <!-- 7. À faire / À éviter -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">07</span>
-      <h2 class="section-title">À faire · À éviter</h2>
-    </div>
-    <div class="dos-donts">
-      <div class="do-col">
-        <div class="do-header dont-header">✕ À éviter</div>
-        <div class="do-body">
-          <div class="do-item">Copier-coller l'article sans valeur ajoutée ni analyse personnelle.</div>
-          <div class="do-item">N'utiliser que Wikipédia ou des blogs non vérifiés.</div>
-          <div class="do-item">Faire toute sa veille deux semaines avant l'examen d'un coup.</div>
-          <div class="do-item">Oublier de sourcer ou de dater ses fiches.</div>
-        </div>
-      </div>
-      <div class="do-col">
-        <div class="do-header do-header-ok">✓ À faire</div>
-        <div class="do-body">
-          <div class="do-item">Résumer et apporter une analyse critique et métier personnelle.</div>
-          <div class="do-item">Croiser plusieurs sources fiables (documentations officielles, ANSSI, blogs d'experts).</div>
-          <div class="do-item">Maintenir un rythme régulier — au moins une fiche par semaine sur deux ans.</div>
-          <div class="do-item">Noter la date, l'URL complète et l'auteur pour chaque fiche archivée.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. Ma veille IA & Anthropic -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">08</span>
-      <h2 class="section-title">Ma veille — IA & Anthropic</h2>
-    </div>
-    <div class="cards-grid c3">
-      <div class="card">
-        <div class="card-label">Thème suivi</div>
-        <div class="card-title">API Claude & Agents</div>
-        <div class="card-text">
-          Suivi des nouveautés de l'API Anthropic : tool use, extended thinking,
-          context window, nouvelles versions des modèles Haiku / Sonnet / Opus.
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-label">Thème suivi</div>
-        <div class="card-title">IA & Réglementation</div>
-        <div class="card-text">
-          Veille sur l'AI Act européen, les obligations de transparence
-          pour les systèmes d'IA et la position de la CNIL sur les modèles génératifs.
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-label">Thème suivi</div>
-        <div class="card-title">Full-stack & DevOps</div>
-        <div class="card-text">
-          Évolutions Python (3.12, 3.13), frameworks Flask / FastAPI,
-          pratiques de déploiement sur GitHub Actions et Pages.
-        </div>
-      </div>
-    </div>
-    <div class="conseil-box" style="margin-top:16px;">
-      <strong>Sources utilisées :</strong> docs.anthropic.com · Anthropic Academy ·
-      anthropic/anthropic-cookbook (GitHub) · changelog officiel · Developer newsletter Anthropic.
-    </div>
-  </section>
-
-  <footer class="page-footer">
-    <div>Samuel Gomes · BTS SIO SLAM 2026</div>
-    <div>Compétence C6 — Organiser son développement professionnel</div>
+  <footer>
+    <div>Samuel Gomes · BTS SIO SLAM · 2026</div>
+    <div>Veille technologique — Compétence C6</div>
   </footer>
 
 </main>
 
 <script>
-  // Scroll progress bar
-  const prog = document.getElementById('scroll-prog');
+  const sb = document.getElementById('sb');
   window.addEventListener('scroll', () => {
-    const doc = document.documentElement;
-    const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
-    prog.style.width = (scrolled * 100) + '%';
+    const d = document.documentElement;
+    sb.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
   });
 </script>
 
