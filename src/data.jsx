@@ -160,8 +160,6 @@ export const SKILLS = [
       ["Python", "Principal"],
       ["Java", "Avancé"],
       ["HTML / CSS", "Solide"],
-      ["C++", "Notions"],
-      ["Node.js", "En cours"],
     ],
   },
   {
@@ -180,7 +178,6 @@ export const SKILLS = [
       ["Backend / API", "Domaine"],
       ["Full-stack", "Domaine"],
       ["Git / Git LFS", "Versioning"],
-      ["Flask", "Web"],
     ],
   },
 ];
