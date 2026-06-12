@@ -134,7 +134,7 @@ export default function App() {
             )}
             <div className="sub">
               <ShinyText
-                text="Développeur & Ingénieur IA — Châtillon, FR"
+                text="Junior Développeur & Software Ingénieur en apprentissage — Châtillon, FR"
                 speed={6}
               />
             </div>
