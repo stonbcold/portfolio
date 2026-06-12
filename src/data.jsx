@@ -2,8 +2,8 @@
 // TODO Samuel: remplace ces deux URLs par tes vrais profils.
 export const LINKS = {
   email: "samuel92320@gmail.com",
-  github: "https://github.com/", // <-- ton GitHub ici
-  linkedin: "https://linkedin.com/", // <-- ton LinkedIn ici
+  github: "https://github.com/stonbcold",
+  linkedin: "https://www.linkedin.com/in/samuel-gomes-5473a0401",
 };
 
 // ====== PROJECTS ======
