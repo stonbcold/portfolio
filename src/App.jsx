@@ -311,10 +311,11 @@ function Work() {
         <div className="work-list">
           {PROJECTS.map((p) => (
             <a
-              href={p.link || "#contact"}
+              href={p.link ?? "#contact"}
               className="work-row"
               key={p.num}
-              {...(p.link ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              target={p.link ? "_blank" : undefined}
+              rel={p.link ? "noopener noreferrer" : undefined}
             >
               <div className="work-num">{p.num}</div>
               <div className="work-main">
