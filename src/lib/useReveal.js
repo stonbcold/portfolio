@@ -25,32 +25,23 @@ export default function useReveal() {
           scrollTrigger: { trigger: el, start: "top 88%" },
         });
       });
-      gsap.utils.toArray(".work-row").forEach((r) => {
-        gsap.from(r, {
+      // Unified staggered list reveal — same fade-up cascade used for the
+      // projects list is applied to Stack (Compétences) and Parcours too.
+      const groups = [
+        { items: ".work-row", trigger: ".work-list" },
+        { items: ".path-row", trigger: ".path-list" },
+        { items: ".cap-col li", trigger: ".caps-grid" },
+      ];
+      groups.forEach(({ items, trigger }) => {
+        const els = gsap.utils.toArray(items);
+        if (!els.length) return;
+        gsap.from(els, {
           y: 40,
           opacity: 0,
-          duration: 0.9,
+          duration: 0.85,
           ease: "power3.out",
-          scrollTrigger: { trigger: r, start: "top 92%" },
-        });
-      });
-      gsap.utils.toArray(".path-row").forEach((r) => {
-        gsap.from(r, {
-          y: 40,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: { trigger: r, start: "top 90%" },
-        });
-      });
-      gsap.utils.toArray(".cap-col li").forEach((li, i) => {
-        gsap.from(li, {
-          x: -20,
-          opacity: 0,
-          duration: 0.6,
-          ease: "power3.out",
-          scrollTrigger: { trigger: li, start: "top 95%" },
-          delay: (i % 5) * 0.04,
+          stagger: 0.07,
+          scrollTrigger: { trigger, start: "top 85%" },
         });
       });
     });

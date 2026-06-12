@@ -17,7 +17,7 @@ const dotStyle = {
   borderRadius: "50%",
   background: "var(--accent)",
   display: "inline-block",
-  boxShadow: "0 0 0 0 rgba(200,100,63,0.5)",
+  boxShadow: "0 0 0 0 rgba(167,171,176,0.5)",
   animation: "pulse 2.4s cubic-bezier(0.22,1,0.36,1) infinite",
 };
 

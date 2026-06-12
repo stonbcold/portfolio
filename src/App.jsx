@@ -12,7 +12,6 @@ import SplitText from "./components/SplitText";
 import ShinyText from "./components/ShinyText";
 import GradientText from "./components/GradientText";
 import BlurText from "./components/BlurText";
-import SpotlightCard from "./components/SpotlightCard";
 import StarBorder from "./components/StarBorder";
 
 import { LINKS, PROJECTS, SKILLS, PATH } from "./data";
@@ -84,7 +83,7 @@ export default function App() {
       {/* Animated particle background (ReactBits) */}
       <div className="bg-particles" aria-hidden="true">
         <Particles
-          particleColors={["#c8643f", "#b0a07a", "#2b2a27"]}
+          particleColors={["#a7abb0", "#888d94", "#2b2a27"]}
           particleCount={140}
           particleSpread={11}
           speed={0.06}
@@ -163,7 +162,7 @@ export default function App() {
         <section className="block" id="about">
           <div className="container">
             <div className="sec-head">
-              <span className="sec-index">(01) — À propos</span>
+              <span className="sec-index">À propos</span>
             </div>
             <p className="statement-block">
               <BlurText
@@ -190,7 +189,7 @@ export default function App() {
           <div className="container">
             <div className="sec-head">
               <div>
-                <span className="sec-index">(03) — Compétences</span>
+                <span className="sec-index">Compétences</span>
                 <h2 className="sec-title fade-up">
                   Boîte à <em>outils</em>
                 </h2>
@@ -198,7 +197,7 @@ export default function App() {
             </div>
             <div className="caps-grid">
               {SKILLS.map((col) => (
-                <div className="cap-col fade-up" key={col.title}>
+                <div className="cap-col" key={col.title}>
                   <h4>{col.title}</h4>
                   <ul>
                     {col.items.map(([name, tag]) => (
@@ -218,7 +217,7 @@ export default function App() {
           <div className="container">
             <div className="sec-head">
               <div>
-                <span className="sec-index">(04) — Parcours</span>
+                <span className="sec-index">Parcours</span>
                 <h2 className="sec-title fade-up">
                   Mon <em>chemin</em>
                 </h2>
@@ -226,7 +225,7 @@ export default function App() {
             </div>
             <div className="path-list">
               {PATH.map((p) => (
-                <div className="path-row fade-up" key={p.title}>
+                <div className="path-row" key={p.title}>
                   <div className="path-date">{p.date}</div>
                   <div>
                     <h3>{p.title}</h3>
@@ -242,7 +241,7 @@ export default function App() {
         {/* CONTACT */}
         <section className="block section-divider contact" id="contact">
           <div className="container">
-            <span className="sec-index">(05) — Contact</span>
+            <span className="sec-index">Contact</span>
             <div style={{ marginTop: 32 }}>
               <a
                 href={`mailto:${LINKS.email}`}
@@ -294,80 +293,43 @@ export default function App() {
   );
 }
 
-/* ====== WORK SECTION (list / grid toggle) ====== */
+/* ====== WORK SECTION (list view) ====== */
 function Work() {
-  const [view, setView] = useState("list");
-
   return (
     <section className="block section-divider" id="work">
       <div className="container">
         <div className="sec-head">
           <div>
-            <span className="sec-index">(02) — Sélection</span>
+            <span className="sec-index">Sélection</span>
             <h2 className="sec-title fade-up">
               Projets <em>récents</em>
             </h2>
           </div>
-          <div className="work-toggle">
-            <button
-              className={view === "list" ? "active" : ""}
-              onClick={() => setView("list")}
-            >
-              Liste
-            </button>
-            <button
-              className={view === "grid" ? "active" : ""}
-              onClick={() => setView("grid")}
-            >
-              Grille
-            </button>
-          </div>
         </div>
 
-        {view === "list" ? (
-          <div className="work-list">
-            {PROJECTS.map((p) => (
-              <a href="#contact" className="work-row" key={p.num}>
-                <div className="work-num">{p.num}</div>
-                <div className="work-main">
-                  <h3>{p.title}</h3>
-                  <p>{p.desc}</p>
-                </div>
-                <div className="work-tags">
-                  {p.live && (
-                    <span className="work-tag live">
-                      <span className="d" /> En cours
-                    </span>
-                  )}
-                  {p.tags.map((t) => (
-                    <span className="work-tag" key={t}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <div className="work-grid">
-            {PROJECTS.slice(0, 4).map((p) => (
-              <SpotlightCard key={p.num}>
-                <a href="#contact" className="grid-card-inner">
-                  <div className="grid-visual" style={{ background: p.gradient }}>
-                    {p.visual}
-                  </div>
-                  <div className="grid-body">
-                    <div>
-                      <h3>{p.short}</h3>
-                      <div className="gb-meta">{p.meta}</div>
-                    </div>
-                    <span className="grid-num">{p.num}</span>
-                  </div>
-                </a>
-              </SpotlightCard>
-            ))}
-          </div>
-        )}
+        <div className="work-list">
+          {PROJECTS.map((p) => (
+            <a href="#contact" className="work-row" key={p.num}>
+              <div className="work-num">{p.num}</div>
+              <div className="work-main">
+                <h3>{p.title}</h3>
+                <p>{p.desc}</p>
+              </div>
+              <div className="work-tags">
+                {p.live && (
+                  <span className="work-tag live">
+                    <span className="d" /> En cours
+                  </span>
+                )}
+                {p.tags.map((t) => (
+                  <span className="work-tag" key={t}>
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );
