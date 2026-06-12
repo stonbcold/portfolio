@@ -899,19 +899,18 @@
 
   function go(n) {
     if (n < 0 || n >= total) return;
-    slides[cur].classList.remove('active');
-    slides[cur].classList.add(n > cur ? 'prev' : '');
-    if (n < cur) slides[cur].classList.remove('prev');
-
-    // Reset prev class after transition
     const old = cur;
-    setTimeout(() => slides[old].classList.remove('prev'), 500);
-
     cur = n;
+
+    slides[old].classList.remove('active');
+    if (n > old) {
+      slides[old].classList.add('prev');
+      setTimeout(() => slides[old].classList.remove('prev'), 500);
+    }
+
     slides[cur].classList.remove('prev');
     slides[cur].classList.add('active');
 
-    // Update UI
     $cur.textContent = cur + 1;
     $prev.disabled = cur === 0;
     $next.disabled = cur === total - 1;
