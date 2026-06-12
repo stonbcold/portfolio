@@ -42,10 +42,11 @@ export const PROJECTS = [
     num: "02",
     title: "Projet Anthropic",
     short: "Projet Anthropic",
-    desc: "Application construite autour de l'API Claude d'Anthropic : intégration du modèle, gestion du contexte et du tool use, et déploiement d'un agent capable de raisonner et d'agir sur des tâches concrètes. (À personnaliser avec les détails de ton projet.)",
+    desc: "Application construite autour de l'API Claude d'Anthropic : intégration du modèle, gestion du contexte et du tool use, et déploiement d'un agent capable de raisonner et d'agir sur des tâches concrètes.",
     meta: "Claude API · Python · Agents",
     tags: ["Claude API", "Python", "Agents"],
     live: true,
+    link: "anthropic.html",
     gradient: "linear-gradient(135deg,#eef0f2,#e3e6e9)",
     visual: (
       <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">

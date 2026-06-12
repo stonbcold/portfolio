@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veille Technologique — Samuel Gomes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0e;
+      --surface: #181816;
+      --surface2: #202020;
+      --accent: #a7abb0;
+      --accent-soft: #c8ccd1;
+      --ink: #f5f3ef;
+      --ink-soft: #7a7974;
+      --border: rgba(167,171,176,0.1);
+    }
+
+    html {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    /* ── Scroll progress ── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--accent);
+      width: 0;
+      z-index: 100;
+      transition: width .1s linear;
+    }
+
+    /* ── Nav ── */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(15,15,14,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .back-link {
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--ink); }
+
+    .nav-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    /* ── Layout ── */
+    .content {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 64px 48px 120px;
+    }
+
+    /* ── Hero ── */
+    .page-hero {
+      margin-bottom: 72px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .page-title {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .page-title em {
+      font-style: italic;
+      color: var(--accent-soft);
+    }
+
+    .page-sub {
+      font-size: 17px;
+      color: var(--ink-soft);
+      font-weight: 300;
+      line-height: 1.65;
+      max-width: 580px;
+      margin-bottom: 28px;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 5px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 12px;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 64px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .section-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 2.5vw, 30px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+    }
+
+    /* ── Cards ── */
+    .cards-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .cards-grid.c2 { grid-template-columns: 1fr 1fr; }
+    .cards-grid.c3 { grid-template-columns: repeat(3, 1fr); }
+    .cards-grid.c4 { grid-template-columns: repeat(4, 1fr); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .card-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .card-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .card-text {
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    /* ── Trépied ── */
+    .tripod {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .tripod-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .tripod-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .tripod-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .tripod-text {
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+
+    /* ── Step flow ── */
+    .steps-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .step-item {
+      padding: 22px 18px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+
+    .step-item:last-child { border-right: none; }
+
+    .step-num {
+      font-size: 32px;
+      font-weight: 700;
+      color: rgba(167,171,176,.15);
+      letter-spacing: -.04em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .step-text {
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.55;
+    }
+
+    /* ── Tools table ── */
+    .tools-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .tools-table th,
+    .tools-table td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .tools-table th {
+      background: var(--surface2);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .tools-table tr:last-child td { border-bottom: none; }
+
+    .tools-table td:first-child {
+      font-weight: 600;
+      color: var(--ink);
+      width: 35%;
+    }
+
+    .tools-table td:last-child {
+      color: var(--ink-soft);
+    }
+
+    /* ── Sources ── */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .source-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .source-block-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .source-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .source-item::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .source-item span { color: var(--ink-soft); font-size: 12px; display: block; }
+
+    /* ── Fiche structure ── */
+    .fiche-steps {
+      counter-reset: fiche;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .fiche-steps li {
+      counter-increment: fiche;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .fiche-steps li::before {
+      content: counter(fiche, decimal-leading-zero);
+      min-width: 28px;
+      height: 28px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .fiche-steps li strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .fiche-steps li span {
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.55;
+    }
+
+    /* ── Do / Don't ── */
+    .dos-donts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .do-col {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .do-header {
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dont-header { color: #a0624a; }
+    .do-header-ok { color: #6a9e6a; }
+
+    .do-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .do-item {
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      padding-left: 12px;
+      border-left: 2px solid var(--border);
+    }
+
+    /* ── Conseil box ── */
+    .conseil-box {
+      background: var(--surface);
+      border: 1px solid rgba(167,171,176,.2);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin-top: 16px;
+    }
+
+    .conseil-box strong { color: var(--ink); }
+
+    /* ── Types of veille ── */
+    .type-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      align-items: flex-start;
+    }
+
+    .type-num {
+      min-width: 28px;
+      height: 28px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .type-body strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .type-body p {
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.55;
+    }
+
+    .type-body .ex {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--accent);
+      background: rgba(167,171,176,.06);
+      border: 1px solid rgba(167,171,176,.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      text-align: center;
+      padding: 32px 0 0;
+      border-top: 1px solid var(--border);
+      color: var(--ink-soft);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .top-nav { padding: 14px 20px; }
+      .content { padding: 40px 20px 80px; }
+      .cards-grid.c2, .cards-grid.c3, .cards-grid.c4 { grid-template-columns: 1fr; }
+      .tripod, .steps-flow, .sources-grid, .dos-donts { grid-template-columns: 1fr; }
+      .step-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .step-item:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scroll-prog"></div>
+
+<nav class="top-nav">
+  <a href="./" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <polyline points="9 2 4 7 9 12"/>
+    </svg>
+    Samuel Gomes
+  </a>
+  <span class="nav-label">Veille Technologique · BTS SIO 2026</span>
+</nav>
+
+<main class="content">
+
+  <!-- Hero -->
+  <header class="page-hero">
+    <div class="hero-eyebrow">Compétence C6 — Développement professionnel</div>
+    <h1 class="page-title">Veille <em>technologique</em></h1>
+    <p class="page-sub">
+      Processus continu de collecte, d'analyse et de diffusion des informations sur les évolutions
+      du secteur informatique — pour anticiper les changements et adapter ses pratiques.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">BTS SIO SLAM</span>
+      <span class="badge">Compétence C6</span>
+      <span class="badge">Epreuve E5</span>
+      <span class="badge">2025 – 2026</span>
+    </div>
+  </header>
+
+  <!-- 1. Définition -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Qu'est-ce que la veille technologique ?</h2>
+    </div>
+    <div class="tripod">
+      <div class="tripod-item">
+        <div class="tripod-icon">🔍</div>
+        <div class="tripod-title">Surveiller</div>
+        <div class="tripod-text">Observer en permanence les nouvelles technologies, tendances et pratiques du secteur.</div>
+      </div>
+      <div class="tripod-item">
+        <div class="tripod-icon">🧠</div>
+        <div class="tripod-title">Analyser</div>
+        <div class="tripod-text">Trier les informations, évaluer la fiabilité des sources et comprendre leur portée réelle.</div>
+      </div>
+      <div class="tripod-item">
+        <div class="tripod-icon">📢</div>
+        <div class="tripod-title">Partager</div>
+        <div class="tripod-text">Restituer les résultats de manière structurée — portfolio, fiches, présentations.</div>
+      </div>
+    </div>
+    <div class="conseil-box">
+      <strong>Pourquoi c'est crucial en BTS SIO :</strong> La veille est la compétence C6 du Bloc 1,
+      directement évaluée lors de l'épreuve E5. Elle prouve votre curiosité et votre implication dans
+      votre développement professionnel.
+    </div>
+  </section>
+
+  <!-- 2. Les 4 types -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Les 4 types de veille</h2>
+    </div>
+    <div class="type-item">
+      <div class="type-num">01</div>
+      <div class="type-body">
+        <strong>Veille technologique</strong>
+        <p>Nouveaux langages, frameworks, outils, IA, architectures cloud.</p>
+        <span class="ex">Ex: sortie de PHP 8.4 · Docker Desktop · React 19 · Claude API</span>
+      </div>
+    </div>
+    <div class="type-item">
+      <div class="type-num">02</div>
+      <div class="type-body">
+        <strong>Veille sécuritaire</strong>
+        <p>Nouvelles failles de sécurité (CVE), correctifs, alertes et bonnes pratiques.</p>
+        <span class="ex">Ex: alertes CERT-FR · OWASP Top 10 · CVE Details</span>
+      </div>
+    </div>
+    <div class="type-item">
+      <div class="type-num">03</div>
+      <div class="type-body">
+        <strong>Veille juridique</strong>
+        <p>Évolutions légales liées au numérique — conformité et réglementation.</p>
+        <span class="ex">Ex: directives CNIL · RGPD · AI Act de l'UE</span>
+      </div>
+    </div>
+    <div class="type-item">
+      <div class="type-num">04</div>
+      <div class="type-body">
+        <strong>Veille concurrentielle</strong>
+        <p>Positionnement des grands acteurs du marché IT et nouvelles offres.</p>
+        <span class="ex">Ex: annonces AWS re:Invent · innovations GitHub Copilot · OpenAI vs Anthropic</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Méthode -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">La méthode en 4 étapes</h2>
+    </div>
+    <div class="steps-flow">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-title">Définir</div>
+        <div class="step-text">Choisir des thèmes précis selon son option (SISR ou SLAM) et ses centres d'intérêt.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-title">Collecter</div>
+        <div class="step-text">Automatiser la réception — flux RSS, newsletters, réseaux professionnels.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-title">Analyser</div>
+        <div class="step-text">Vérifier la fiabilité, croiser les sources, distinguer les tendances de fond du buzz.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-title">Diffuser</div>
+        <div class="step-text">Rédiger une fiche synthétique et l'intégrer au portfolio — section C6.</div>
+      </div>
+    </div>
+    <div class="conseil-box">
+      <strong>Conseil d'organisation :</strong> consacrer <strong>15 à 20 minutes par semaine</strong> à la veille.
+      La régularité prime sur la quantité.
+    </div>
+  </section>
+
+  <!-- 4. Outils -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">La boîte à outils</h2>
+    </div>
+    <table class="tools-table">
+      <thead>
+        <tr>
+          <th>Catégorie</th>
+          <th>Outils recommandés</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Agrégateurs RSS</td>
+          <td>Feedly (organisation des flux) · Inoreader (filtres avancés) · Netvibes</td>
+        </tr>
+        <tr>
+          <td>Newsletters & Alertes</td>
+          <td>Google Alerts (mots-clés) · TLDR Newsletter · Hacker Newsletter</td>
+        </tr>
+        <tr>
+          <td>Réseaux & Communautés</td>
+          <td>LinkedIn (suivi d'experts) · Reddit r/programming, r/sysadmin · Twitter/X CERT-FR, ANSSI</td>
+        </tr>
+        <tr>
+          <td>Archivage & Base de savoir</td>
+          <td>Notion (centraliser) · Pocket (lecture différée) · Zotero (références)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. Sources -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Sources recommandées</h2>
+    </div>
+    <div class="sources-grid">
+      <div class="source-block">
+        <div class="source-block-title">Option SLAM — Dev & IA</div>
+        <div class="source-item">Dev.to · Hacker News <span>Articles de la communauté dev</span></div>
+        <div class="source-item">GitHub Trending <span>Projets open-source populaires</span></div>
+        <div class="source-item">MDN Web Docs · CSS-Tricks <span>Références web front-end</span></div>
+        <div class="source-item">OWASP Top 10 <span>Sécurité applicative</span></div>
+        <div class="source-item">docs.anthropic.com <span>Évolutions de l'API Claude</span></div>
+      </div>
+      <div class="source-block">
+        <div class="source-block-title">Option SISR — Sécurité</div>
+        <div class="source-item">ANSSI / CERT-FR <span>Alertes officielles — cert.ssi.gouv.fr</span></div>
+        <div class="source-item">CVE Details <span>Base de données vulnérabilités</span></div>
+        <div class="source-item">Cisco Talos · Linuxfr.org <span>Analyses techniques</span></div>
+        <div class="source-item">Server Fault <span>Administration système</span></div>
+      </div>
+      <div class="source-block" style="grid-column:1/-1;">
+        <div class="source-block-title">Sources communes</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:4px;">
+          <span style="font-size:13px;color:var(--ink-soft);">Le Monde Informatique</span>
+          <span style="color:var(--border);">·</span>
+          <span style="font-size:13px;color:var(--ink-soft);">ZDNet FR</span>
+          <span style="color:var(--border);">·</span>
+          <span style="font-size:13px;color:var(--ink-soft);">Numerama</span>
+          <span style="color:var(--border);">·</span>
+          <span style="font-size:13px;color:var(--ink-soft);">CNIL</span>
+          <span style="color:var(--border);">·</span>
+          <span style="font-size:13px;color:var(--ink-soft);">Journal du Net</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Rédiger une fiche -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Structure d'une fiche de veille</h2>
+    </div>
+    <ol class="fiche-steps">
+      <li>
+        <strong>Titre</strong>
+        <span>Court, précis et explicite — identifie immédiatement le sujet.</span>
+      </li>
+      <li>
+        <strong>Date & Source</strong>
+        <span>Date de publication, nom de l'auteur et URL d'origine complète.</span>
+      </li>
+      <li>
+        <strong>Résumé</strong>
+        <span>3 à 5 lignes maximum, rédigées avec vos propres mots — pas de copier-coller.</span>
+      </li>
+      <li>
+        <strong>Analyse métier</strong>
+        <span>Quel est l'impact pour votre option SLAM / SISR ou pour le métier d'informaticien ?</span>
+      </li>
+      <li>
+        <strong>Mots-clés</strong>
+        <span>2 à 4 tags thématiques pour classer et retrouver la fiche facilement.</span>
+      </li>
+    </ol>
+    <div class="conseil-box" style="margin-top:20px;">
+      <strong>À l'oral E5 :</strong> faites des ponts concrets — expliquez comment une découverte de veille
+      a influencé un choix technique dans un de vos projets. Le jury valorise la cohérence entre veille et pratique.
+    </div>
+  </section>
+
+  <!-- 7. À faire / À éviter -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">À faire · À éviter</h2>
+    </div>
+    <div class="dos-donts">
+      <div class="do-col">
+        <div class="do-header dont-header">✕ À éviter</div>
+        <div class="do-body">
+          <div class="do-item">Copier-coller l'article sans valeur ajoutée ni analyse personnelle.</div>
+          <div class="do-item">N'utiliser que Wikipédia ou des blogs non vérifiés.</div>
+          <div class="do-item">Faire toute sa veille deux semaines avant l'examen d'un coup.</div>
+          <div class="do-item">Oublier de sourcer ou de dater ses fiches.</div>
+        </div>
+      </div>
+      <div class="do-col">
+        <div class="do-header do-header-ok">✓ À faire</div>
+        <div class="do-body">
+          <div class="do-item">Résumer et apporter une analyse critique et métier personnelle.</div>
+          <div class="do-item">Croiser plusieurs sources fiables (documentations officielles, ANSSI, blogs d'experts).</div>
+          <div class="do-item">Maintenir un rythme régulier — au moins une fiche par semaine sur deux ans.</div>
+          <div class="do-item">Noter la date, l'URL complète et l'auteur pour chaque fiche archivée.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Ma veille IA & Anthropic -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Ma veille — IA & Anthropic</h2>
+    </div>
+    <div class="cards-grid c3">
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <div class="card-label">Thème suivi</div>
+        <div class="card-title">API Claude & Agents</div>
+        <div class="card-text">
+          Suivi des nouveautés de l'API Anthropic : tool use, extended thinking,
+          context window, nouvelles versions des modèles Haiku / Sonnet / Opus.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <div class="card-label">Thème suivi</div>
+        <div class="card-title">IA & Réglementation</div>
+        <div class="card-text">
+          Veille sur l'AI Act européen, les obligations de transparence
+          pour les systèmes d'IA et la position de la CNIL sur les modèles génératifs.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <div class="card-label">Thème suivi</div>
+        <div class="card-title">Full-stack & DevOps</div>
+        <div class="card-text">
+          Évolutions Python (3.12, 3.13), frameworks Flask / FastAPI,
+          pratiques de déploiement sur GitHub Actions et Pages.
+        </div>
+      </div>
+    </div>
+    <div class="conseil-box" style="margin-top:16px;">
+      <strong>Sources utilisées :</strong> docs.anthropic.com · Anthropic Academy ·
+      anthropic/anthropic-cookbook (GitHub) · changelog officiel · Developer newsletter Anthropic.
+    </div>
+  </section>
+
+  <footer class="page-footer">
+    <div>Samuel Gomes · BTS SIO SLAM 2026</div>
+    <div>Compétence C6 — Organiser son développement professionnel</div>
+  </footer>
+
+</main>
+
+<script>
+  // Scroll progress bar
+  const prog = document.getElementById('scroll-prog');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+    prog.style.width = (scrolled * 100) + '%';
+  });
+</script>
+
+</body>
+</html>

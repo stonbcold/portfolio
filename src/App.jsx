@@ -105,6 +105,7 @@ export default function App() {
           <div className="nav-links">
             <a href="#work">Projets</a>
             <a href="#caps">Stack</a>
+            <a href="veille.html">Veille</a>
             <a href="#contact">Contact</a>
           </div>
         </nav>
@@ -309,7 +310,12 @@ function Work() {
 
         <div className="work-list">
           {PROJECTS.map((p) => (
-            <a href="#contact" className="work-row" key={p.num}>
+            <a
+              href={p.link || "#contact"}
+              className="work-row"
+              key={p.num}
+              {...(p.link ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
               <div className="work-num">{p.num}</div>
               <div className="work-main">
                 <h3>{p.title}</h3>
