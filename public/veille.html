@@ -230,9 +230,10 @@
     <h1 class="doc-title">Anthropic &amp; <em>l'IA de confiance</em></h1>
     <p class="doc-intro">
       Cette veille porte sur Anthropic, entreprise spécialisée en sécurité de l'IA,
-      créatrice du modèle Claude et de l'API éponyme. En tant que développeur ayant
-      travaillé directement avec cette technologie, j'ai suivi de près ses évolutions
-      depuis 2024.
+      créatrice du modèle Claude et de l'API éponyme. J'ai suivi de près ses évolutions —
+      jusqu'à ses toutes dernières sorties, <strong>Claude Fable 5 et Mythos 5</strong> (juin 2026).
+      Pour rassembler et recouper ces informations, je me suis appuyé sur les
+      <strong>outils de recherche Google</strong> (Google Search et Google Actualités).
     </p>
   </header>
 
@@ -246,26 +247,19 @@
         <div class="fact-label">Fondée à San Francisco</div>
       </div>
       <div class="fact">
-        <div class="fact-val">$18B+</div>
-        <div class="fact-label">Valorisation (2025)</div>
+        <div class="fact-val">D. Amodei</div>
+        <div class="fact-label">CEO &amp; cofondateur</div>
       </div>
       <div class="fact">
-        <div class="fact-val">CAI</div>
-        <div class="fact-label">Constitutional AI</div>
+        <div class="fact-val">Sûreté</div>
+        <div class="fact-label">Priorité de recherche</div>
       </div>
     </div>
     <p>
-      Anthropic est fondée en 2021 par <strong>Dario Amodei</strong> (ex-VP Recherche OpenAI)
-      et <strong>Daniela Amodei</strong>, accompagnés d'une équipe de chercheurs issus du même
-      laboratoire. Leur objectif : développer une intelligence artificielle <strong>sûre,
-      fiable et interprétable</strong>, dans un contexte où les modèles de grande taille
-      soulèvent des questions croissantes de contrôle et d'alignement.
-    </p>
-    <p>
-      L'entreprise a rapidement attiré des investissements majeurs de <strong>Google</strong>
-      et d'<strong>Amazon AWS</strong>, qui ont intégré Claude dans leurs plateformes cloud
-      respectives (Vertex AI et Amazon Bedrock). Elle est aujourd'hui l'un des acteurs
-      centraux de la recherche en IA générative.
+      Anthropic est fondée en 2021 par <strong>Dario Amodei</strong> et <strong>Daniela Amodei</strong>,
+      avec d'anciens chercheurs d'OpenAI. Son objectif : développer une IA <strong>sûre, fiable
+      et interprétable</strong>. Soutenue par <strong>Google</strong> et <strong>Amazon</strong>,
+      elle est aujourd'hui l'un des acteurs centraux de l'IA générative.
     </p>
   </section>
 
@@ -317,15 +311,45 @@
       <div class="model-desc">Le plus puissant — raisonnement complexe, analyse approfondie, tâches multi-étapes exigeantes.</div>
     </div>
     <p style="margin-top:16px;">
-      La version <strong>Claude Sonnet 4.6</strong> (2026) supporte une fenêtre de contexte
-      de <strong>200 000 tokens</strong>, ce qui permet d'analyser des documents entiers
-      ou de maintenir de très longs historiques de conversation.
+      À ces trois gammes s'ajoute désormais une <strong>nouvelle génération</strong>, bien plus
+      puissante, dévoilée en juin 2026 — détaillée juste en dessous.
     </p>
   </section>
 
-  <!-- 4. L'API -->
+  <!-- 4. Nouveautés -->
   <section class="doc-section">
-    <div class="section-label">04 — Écosystème</div>
+    <div class="section-label">04 — Nouveautés</div>
+    <h2>Claude Fable 5 &amp; Mythos 5 — la nouvelle génération</h2>
+    <p>
+      Le <strong>9 juin 2026</strong>, Anthropic a dévoilé deux nouveaux modèles « classe Mythos »,
+      un vrai saut de capacités sur les tâches longues et autonomes. Les deux partagent la même
+      architecture, mais pas le même niveau d'accès.
+    </p>
+    <div class="model-row">
+      <div class="model-name">Fable 5</div>
+      <div class="model-desc">La version <strong>grand public</strong>, garde-fous de sécurité actifs. Disponible sur l'API Claude, AWS Bedrock, Vertex AI et Microsoft Foundry.</div>
+    </div>
+    <div class="model-row">
+      <div class="model-name">Mythos 5</div>
+      <div class="model-desc">La version <strong>sans garde-fous</strong>, réservée à des usages autorisés (cybersécurité, recherche) via le programme restreint Project Glasswing.</div>
+    </div>
+    <ul class="doc-list">
+      <li><strong>Code :</strong> Stripe rapporte que Fable 5 « a compressé des mois d'ingénierie en quelques jours ».</li>
+      <li><strong>Vision :</strong> extraction de données depuis des figures scientifiques, reconstruction d'applis web à partir de captures d'écran.</li>
+      <li><strong>Contexte très long :</strong> maintien de l'attention sur des millions de tokens.</li>
+      <li><strong>Recherche :</strong> Mythos 5 a accéléré environ 10× certaines tâches de conception de protéines.</li>
+    </ul>
+    <div class="note">
+      <strong>La sécurité d'abord :</strong> sur les sujets sensibles (cybersécurité, biologie/chimie),
+      Fable 5 bloque la demande et la redirige automatiquement vers <strong>Claude Opus 4.8</strong> —
+      ce qui ne concerne que moins de 5 % des sessions. Anthropic a publié ces modèles quelques jours
+      après avoir averti que l'IA devenait « trop dangereuse », d'où ces limites strictes.
+    </div>
+  </section>
+
+  <!-- 5. L'API -->
+  <section class="doc-section">
+    <div class="section-label">05 — Écosystème</div>
     <h2>L'API Claude et le développement d'agents</h2>
     <p>
       L'API Claude expose une interface REST simple utilisée pour intégrer les modèles
@@ -333,10 +357,8 @@
       officiels d'Anthropic.
     </p>
     <ul class="doc-list">
-      <li><strong>Messages API :</strong> gestion des conversations multi-tours avec system prompt.</li>
-      <li><strong>Tool Use :</strong> le modèle peut appeler des fonctions externes (recherche, calcul, lecture de fichiers).</li>
-      <li><strong>Streaming :</strong> réponses token par token pour une UX réactive.</li>
-      <li><strong>Vision :</strong> analyse d'images, captures d'écran, diagrammes.</li>
+      <li><strong>Messages API :</strong> conversations multi-tours avec system prompt.</li>
+      <li><strong>Tool Use :</strong> le modèle appelle des fonctions externes (recherche, calcul, lecture de fichiers).</li>
       <li><strong>Extended Thinking :</strong> raisonnement interne visible avant la réponse finale.</li>
     </ul>
     <p>
@@ -355,7 +377,7 @@
 
   <!-- 5. Contexte réglementaire -->
   <section class="doc-section">
-    <div class="section-label">05 — Réglementation</div>
+    <div class="section-label">06 — Réglementation</div>
     <h2>Contexte juridique et AI Act</h2>
     <p>
       L'Union Européenne a adopté en 2024 l'<strong>AI Act</strong>, premier cadre
@@ -377,9 +399,17 @@
 
   <!-- 6. Sources -->
   <section class="doc-section">
-    <div class="section-label">06 — Sources</div>
+    <div class="section-label">07 — Sources</div>
     <h2>Sources utilisées</h2>
     <div class="sources-list">
+      <div class="source-item">
+        <span class="source-name">Outils Google</span>
+        <span class="source-desc">Google Search &amp; Google Actualités — recherche et recoupement des informations</span>
+      </div>
+      <div class="source-item">
+        <span class="source-name">anthropic.com/news</span>
+        <span class="source-desc">Annonce officielle de Claude Fable 5 et Mythos 5 (juin 2026)</span>
+      </div>
       <div class="source-item">
         <span class="source-name">docs.anthropic.com</span>
         <span class="source-desc">Documentation officielle de l'API Claude</span>
