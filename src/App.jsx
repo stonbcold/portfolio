@@ -22,6 +22,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const [loaded] = useState(true);
+  const [theme, setTheme] = useState(
+    () => document.documentElement.getAttribute("data-theme") || "dark"
+  );
+  const dark = theme === "dark";
+  const toggleTheme = () => {
+    const next = dark ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch (e) {}
+    setTheme(next);
+  };
   const heroRef = useRef(null);
   const magneticRef = useRef(null);
 
@@ -83,7 +95,12 @@ export default function App() {
       {/* Animated particle background (ReactBits) */}
       <div className="bg-particles" aria-hidden="true">
         <Particles
-          particleColors={["#a7abb0", "#888d94", "#2b2a27"]}
+          key={theme}
+          particleColors={
+            dark
+              ? ["#5f6369", "#8f949a", "#d4d6d9"]
+              : ["#a7abb0", "#888d94", "#2b2a27"]
+          }
           particleCount={140}
           particleSpread={11}
           speed={0.06}
@@ -116,8 +133,12 @@ export default function App() {
           {/* Gradient ASCII background (ReactBits) */}
           <div className="hero-ascii" aria-hidden="true">
             <GradientASCII
-              lightMode={true}
-              colors={["#c8ccd1", "#a7abb0", "#888d94", "#57544e"]}
+              lightMode={!dark}
+              colors={
+                dark
+                  ? ["#2a2c30", "#4a4d52", "#7d8288", "#b4b8bd"]
+                  : ["#c8ccd1", "#a7abb0", "#888d94", "#57544e"]
+              }
               shape="horizon"
               characters=" =+xX0S8#@"
               cellSize={18}
@@ -186,7 +207,7 @@ export default function App() {
                 </h2>
               </div>
             </div>
-            <p className="statement-block">
+            <p className="statement-block intro-statement">
               <BlurText
                 text="Je m'appelle Samuel, j'ai 19 ans et je suis étudiant en BTS."
                 delay={60}
@@ -230,7 +251,7 @@ export default function App() {
         </section>
 
         {/* WORK */}
-        <Work />
+        <Work dark={dark} />
 
         {/* PARCOURS */}
         <section className="block section-divider">
@@ -335,6 +356,14 @@ export default function App() {
           <div>© 2026 Samuel Gomes</div>
           <div>Développeur & Ingénieur IA</div>
           <div>Fait main, avec soin</div>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={dark ? "Passer en mode clair" : "Passer en mode sombre"}
+          >
+            {dark ? "☀ Mode clair" : "☾ Mode sombre"}
+          </button>
         </footer>
       </div>
     </>
@@ -370,7 +399,7 @@ ${p.live ? `<circle cx="680" cy="86" r="8" fill="#2f9e5b"/><text x="700" y="96" 
 // Project whose card shows the live Strands animation instead of its drawing.
 const STRANDS_PROJECT = "02";
 
-function StrandsCardSource({ canvas, pulseRef }) {
+function StrandsCardSource({ canvas, pulseRef, dark }) {
   const hostRef = useRef(null);
 
   // Lets the carousel trigger Strands' click pulse on the hidden instance.
@@ -403,7 +432,7 @@ function StrandsCardSource({ canvas, pulseRef }) {
 
   return (
     <div className="strands-source" ref={hostRef} aria-hidden="true">
-      <Strands lightMode={true} interactive={false} clickPulse={true} />
+      <Strands lightMode={!dark} interactive={false} clickPulse={true} />
     </div>
   );
 }
@@ -439,7 +468,7 @@ function ImageCardSource({ src, canvas }) {
   );
 }
 
-function Work() {
+function Work({ dark }) {
   // One live canvas per project that has an `image` (sized to the image).
   const imageCanvases = useMemo(() => {
     const map = {};
@@ -497,7 +526,7 @@ function Work() {
       </div>
 
       {strandsProject && (
-        <StrandsCardSource canvas={strandsCanvas} pulseRef={strandsPulse} />
+        <StrandsCardSource canvas={strandsCanvas} pulseRef={strandsPulse} dark={dark} />
       )}
 
       {PROJECTS.filter((p) => imageCanvases[p.num]).map((p) => (

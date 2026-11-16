@@ -1,4 +1,6 @@
-:root {
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
   --bg: #f6f5f1;
   --bg-pure: #fbfaf7;
   --ink: #0d0d0c;
@@ -9,6 +11,19 @@
   --line: #d9d6cd;
   --line-soft: #e7e4dc;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Dark theme (default, set on <html> before first paint in index.html) */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0c0c0d;
+  --bg-pure: #141416;
+  --ink: #f2f1ed;
+  --ink-soft: #b4b1aa;
+  --ink-mute: #7d7a74;
+  --accent: #8f949a;
+  --accent-soft: #3a3d42;
+  --line: #2a2a2d;
+  --line-soft: #1d1d20;
 }
 
 * {
@@ -376,6 +391,10 @@ section.block {
 }
 .statement-block .muted {
   color: var(--ink-mute);
+}
+/* Présentation: text runs across the full container width */
+.statement-block.intro-statement {
+  max-width: none;
 }
 
 /* About: text + wandering butterfly (Lottie) */
@@ -771,6 +790,25 @@ footer {
 footer a {
   color: var(--ink);
   text-decoration: none;
+}
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 11px;
+  color: var(--ink-mute);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s;
+}
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  color: var(--ink);
+  border-color: var(--ink);
 }
 
 /* ====== REACTBITS: SplitText ====== */
