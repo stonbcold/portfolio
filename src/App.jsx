@@ -1,18 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import useLenis from "./lib/useLenis";
 import useReveal from "./lib/useReveal";
 
-import Cursor from "./components/Cursor";
+import FlexCarousel from "./components/FlexCarousel";
+import Strands from "./components/Strands";
 import Particles from "./components/Particles";
-import Marquee from "./components/Marquee";
 import SplitText from "./components/SplitText";
 import ShinyText from "./components/ShinyText";
-import GradientText from "./components/GradientText";
 import BlurText from "./components/BlurText";
+import Butterfly from "./components/Butterfly";
 import StarBorder from "./components/StarBorder";
+import GradientASCII from "./components/GradientASCII";
 
 import { LINKS, PROJECTS, SKILLS, PATH } from "./data";
 
@@ -20,11 +22,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const [loaded] = useState(true);
-  const [pct, setPct] = useState(0);
   const heroRef = useRef(null);
   const magneticRef = useRef(null);
 
-  useLenis(setPct);
+  useLenis();
   useReveal();
 
   // Hero scroll-scrub: name scales up + fades as you scroll past it.
@@ -78,7 +79,6 @@ export default function App() {
 
   return (
     <>
-      <Cursor />
 
       {/* Animated particle background (ReactBits) */}
       <div className="bg-particles" aria-hidden="true">
@@ -110,16 +110,33 @@ export default function App() {
           </div>
         </nav>
 
-        <div className="scroll-pct">
-          <b>{pct}</b>%
-        </div>
-
         {/* HERO */}
         <section className="hero" id="top" ref={heroRef}>
+          {/* Gradient ASCII background (ReactBits) */}
+          <div className="hero-ascii" aria-hidden="true">
+            <GradientASCII
+              lightMode={true}
+              colors={["#c8ccd1", "#a7abb0", "#888d94", "#57544e"]}
+              shape="horizon"
+              characters=" =+xX0S8#@"
+              cellSize={18}
+              density={0.8}
+              glyphOpacity={0.85}
+              glow={0.2}
+              flicker={0.2}
+              softness={0.5}
+              flow={0.5}
+              speed={1}
+              gradientOpacity={0.9}
+              grain={0.08}
+              mouseInteraction={true}
+              scrambleRadius={0.1}
+              clickEffect="wave"
+              intro={true}
+              fontFamily='"JetBrains Mono", ui-monospace, monospace'
+            />
+          </div>
           <div className="hero-inner">
-            <GradientText className="eyebrow">
-              Disponible — Alternance Sept. 2026
-            </GradientText>
             {loaded ? (
               <SplitText
                 text="Samuel Gomes"
@@ -135,7 +152,7 @@ export default function App() {
             )}
             <div className="sub">
               <ShinyText
-                text="Junior Développeur & Software Ingénieur en apprentissage — Châtillon, FR"
+                text="Junior Développeur & Software Ingénieur en apprentissage"
                 speed={6}
               />
             </div>
@@ -156,8 +173,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* MARQUEE */}
-        <Marquee />
 
         {/* ABOUT */}
         <section className="block" id="about">
@@ -165,25 +180,54 @@ export default function App() {
             <div className="sec-head">
               <span className="sec-index">À propos</span>
             </div>
-            <p className="statement-block">
-              <BlurText
-                text="Je conçois et entraîne des modèles d'IA, du réseau de neurones from scratch au moteur de jeu déployé."
-                delay={60}
-                animateBy="words"
-              />{" "}
-              <span className="muted">
+            <div className="about-row">
+              <p className="statement-block">
                 <BlurText
-                  text="Mon terrain : Python, le deep learning, et tout ce qui transforme une idée en système qui fonctionne."
-                  delay={40}
+                  text="Je conçois et entraîne des modèles d'IA, du réseau de neurones from scratch au moteur de jeu déployé."
+                  delay={60}
                   animateBy="words"
-                />
-              </span>
-            </p>
+                />{" "}
+                <span className="muted">
+                  <BlurText
+                    text="Mon terrain : Python, le deep learning, et tout ce qui transforme une idée en système qui fonctionne."
+                    delay={40}
+                    animateBy="words"
+                  />
+                </span>
+              </p>
+              <Butterfly />
+            </div>
           </div>
         </section>
 
         {/* WORK */}
         <Work />
+
+        {/* PARCOURS */}
+        <section className="block section-divider">
+          <div className="container">
+            <div className="sec-head">
+              <div>
+                <span className="sec-index">Parcours</span>
+                <h2 className="sec-title fade-up">
+                  Mon <em>chemin</em>
+                </h2>
+              </div>
+            </div>
+            <div className="path-list">
+              {PATH.map((p) => (
+                <div className="path-row" key={p.title}>
+                  <div className="path-date">{p.date}</div>
+                  <div>
+                    <h3>{p.title}</h3>
+                    <div className="place">{p.place}</div>
+                    <p>{p.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* CAPS */}
         <section className="block section-divider" id="caps">
@@ -207,32 +251,6 @@ export default function App() {
                       </li>
                     ))}
                   </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* PARCOURS */}
-        <section className="block section-divider">
-          <div className="container">
-            <div className="sec-head">
-              <div>
-                <span className="sec-index">Parcours</span>
-                <h2 className="sec-title fade-up">
-                  Mon <em>chemin</em>
-                </h2>
-              </div>
-            </div>
-            <div className="path-list">
-              {PATH.map((p) => (
-                <div className="path-row" key={p.title}>
-                  <div className="path-date">{p.date}</div>
-                  <div>
-                    <h3>{p.title}</h3>
-                    <div className="place">{p.place}</div>
-                    <p>{p.desc}</p>
-                  </div>
                 </div>
               ))}
             </div>
@@ -294,8 +312,146 @@ export default function App() {
   );
 }
 
-/* ====== WORK SECTION (list view) ====== */
+/* ====== WORK SECTION (FlexCarousel, ReactBits) ====== */
+
+// Build an SVG "poster" image for each project from its gradient + visual,
+// so the WebGL carousel has a texture to render.
+const projectImage = (p) => {
+  const colors = p.gradient.match(/#[0-9a-fA-F]{3,8}/g) || ["#f0ebe2", "#e7ddcf"];
+  const inner = renderToStaticMarkup(p.visual).replace(
+    /^<svg[^>]*>|<\/svg>$/g,
+    ""
+  );
+  const vb = (renderToStaticMarkup(p.visual).match(/viewBox="([^"]+)"/) || [])[1] || "0 0 80 80";
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const tags = esc(p.tags.join("  ·  ").toUpperCase());
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="${colors[0]}"/><stop offset="1" stop-color="${colors[1] || colors[0]}"/>
+</linearGradient></defs>
+<rect width="800" height="1000" fill="url(#g)"/>
+<text x="56" y="96" font-family="ui-monospace,Consolas,monospace" font-size="28" letter-spacing="3" fill="#57544e">${p.num}</text>
+${p.live ? `<circle cx="680" cy="86" r="8" fill="#2f9e5b"/><text x="700" y="96" font-family="ui-monospace,Consolas,monospace" font-size="22" fill="#57544e">LIVE</text>` : ""}
+<svg x="160" y="250" width="480" height="480" viewBox="${vb}">${inner}</svg>
+<text x="400" y="910" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="22" letter-spacing="2" fill="#57544e">${tags}</text>
+</svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+};
+
+// Project whose card shows the live Strands animation instead of its drawing.
+const STRANDS_PROJECT = "02";
+
+function StrandsCardSource({ canvas, pulseRef }) {
+  const hostRef = useRef(null);
+
+  // Lets the carousel trigger Strands' click pulse on the hidden instance.
+  useEffect(() => {
+    if (!pulseRef) return;
+    pulseRef.current = () => {
+      const el = hostRef.current?.querySelector(".strands-container");
+      el?.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true }));
+    };
+    return () => {
+      pulseRef.current = null;
+    };
+  }, [pulseRef]);
+
+  // Copy only the Strands bubble (transparent background, no frame or text).
+  useEffect(() => {
+    const ctx = canvas.getContext("2d");
+    let raf;
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const src = hostRef.current?.querySelector("canvas");
+      if (src && src.width && src.height) {
+        ctx.drawImage(src, 0, 0, canvas.width, canvas.height);
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    return () => cancelAnimationFrame(raf);
+  }, [canvas]);
+
+  return (
+    <div className="strands-source" ref={hostRef} aria-hidden="true">
+      <Strands lightMode={true} interactive={false} clickPulse={true} />
+    </div>
+  );
+}
+
+// Draws an (animated) image into a canvas every frame so the carousel shows
+// it as a live texture. The <img> stays in the DOM (invisible) so the browser
+// keeps advancing its animation frames.
+function ImageCardSource({ src, canvas }) {
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = canvas.getContext("2d");
+    let raf;
+    const draw = () => {
+      const img = imgRef.current;
+      if (img && img.complete && img.naturalWidth) {
+        if (canvas.width !== img.naturalWidth) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+        }
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    return () => cancelAnimationFrame(raf);
+  }, [canvas]);
+
+  return (
+    <div className="strands-source" aria-hidden="true">
+      <img ref={imgRef} src={src} alt="" />
+    </div>
+  );
+}
+
 function Work() {
+  // One live canvas per project that has an `image` (sized to the image).
+  const imageCanvases = useMemo(() => {
+    const map = {};
+    PROJECTS.forEach((p) => {
+      if (!p.image || !p.animated) return;
+      const c = document.createElement("canvas");
+      c.width = 860;
+      c.height = 591;
+      map[p.num] = c;
+    });
+    return map;
+  }, []);
+
+  const strandsCanvas = useMemo(() => {
+    const c = document.createElement("canvas");
+    c.width = 800;
+    c.height = 800;
+    return c;
+  }, []);
+  const strandsProject = PROJECTS.find((p) => p.num === STRANDS_PROJECT);
+  const strandsPulse = useRef(null);
+
+  const items = useMemo(
+    () =>
+      PROJECTS.map((p) => ({
+        ...(p.num === STRANDS_PROJECT
+          ? { canvas: strandsCanvas, src: `live:${p.num}` }
+          : imageCanvases[p.num]
+          ? { canvas: imageCanvases[p.num], src: `img:${p.num}` }
+          : p.image
+          ? { src: p.image }
+          : { src: projectImage(p) }),
+        alt: p.title,
+        title: p.title,
+        subtitle: p.meta,
+      })),
+    [strandsCanvas, imageCanvases]
+  );
+  const [active, setActive] = useState(0);
+  const p = PROJECTS[active] || PROJECTS[0];
+
   return (
     <section className="block section-divider" id="work">
       <div className="container">
@@ -307,35 +463,56 @@ function Work() {
             </h2>
           </div>
         </div>
+      </div>
 
-        <div className="work-list">
-          {PROJECTS.map((p) => (
-            <a
-              href={p.link ?? "#contact"}
-              className="work-row"
-              key={p.num}
-              target={p.link ? "_blank" : undefined}
-              rel={p.link ? "noopener noreferrer" : undefined}
-            >
-              <div className="work-num">{p.num}</div>
-              <div className="work-main">
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-              </div>
-              <div className="work-tags">
-                {p.live && (
-                  <span className="work-tag live">
-                    <span className="d" /> En cours
-                  </span>
-                )}
-                {p.tags.map((t) => (
-                  <span className="work-tag" key={t}>
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </a>
-          ))}
+      {strandsProject && (
+        <StrandsCardSource canvas={strandsCanvas} pulseRef={strandsPulse} />
+      )}
+
+      {PROJECTS.filter((p) => imageCanvases[p.num]).map((p) => (
+        <ImageCardSource key={p.num} src={p.image} canvas={imageCanvases[p.num]} />
+      ))}
+
+      <div className="work-carousel">
+        <FlexCarousel
+          items={items}
+          preset="liquid"
+          cardHeight={0.62}
+          gap={16}
+          radius={14}
+          captions={true}
+          captureWheel={false}
+          focusOnClick={true}
+          onChange={(i) => setActive(i)}
+          onSelect={(i) => {
+            // Clicking the chatbot card makes the Strands bubble pulse.
+            if (PROJECTS[i]?.num === STRANDS_PROJECT) strandsPulse.current?.();
+          }}
+        />
+      </div>
+
+      <div className="container">
+        <div className="work-detail" key={p.num}>
+          <p>{p.desc}</p>
+          <div className="work-detail-foot">
+            <div className="work-tags">
+              {p.live && (
+                <span className="work-tag live">
+                  <span className="d" /> En cours
+                </span>
+              )}
+              {p.tags.map((t) => (
+                <span className="work-tag" key={t}>
+                  {t}
+                </span>
+              ))}
+            </div>
+            {p.link && (
+              <a href={p.link} target="_blank" rel="noopener noreferrer" className="work-detail-link">
+                Voir le projet ↗
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </section>

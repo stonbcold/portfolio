@@ -3,454 +3,400 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Veille — Anthropic · Samuel Gomes</title>
+  <title>Veille — SpaceX · Samuel Gomes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0f0f0e;
-      --surface: #181816;
-      --accent: #a7abb0;
-      --accent-soft: #c8ccd1;
-      --ink: #f5f3ef;
-      --ink-soft: #7a7974;
-      --ink-muted: #4a4946;
-      --border: rgba(167,171,176,0.1);
+      --paper: #f3eee2;
+      --paper-dark: #e8e1d0;
+      --ink: #161513;
+      --ink-soft: #3b3933;
+      --ink-muted: #6d695f;
+      --rule: #161513;
+      --rule-soft: rgba(22,21,19,.28);
+      --serif: 'Old Standard TT', Georgia, 'Times New Roman', serif;
+      --display: 'Playfair Display', Georgia, serif;
+      --sans: 'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
+      --blackletter: 'UnifrakturMaguntia', 'Old English Text MT', serif;
     }
 
-    html { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+    html { background: #d9d2c1; color: var(--ink); scroll-behavior: smooth; }
+    body {
+      font-family: var(--serif);
+      background: #d9d2c1;
+      padding: 32px 16px 64px;
+    }
+    a { color: inherit; }
 
-    /* ── Scroll bar ── */
-    .scroll-bar {
-      position: fixed; top: 0; left: 0; height: 2px;
-      background: var(--accent); width: 0; z-index: 100;
-      transition: width .1s linear;
+    /* ── The sheet of paper ── */
+    .paper {
+      max-width: 1180px; margin: 0 auto;
+      background-color: var(--paper);
+      /* grain + soft vignette for a printed look */
+      background-image:
+        radial-gradient(ellipse at center, transparent 55%, rgba(120,100,60,.12) 100%),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      box-shadow: 0 1px 2px rgba(0,0,0,.15), 0 18px 50px rgba(60,45,20,.25);
+      padding: 22px 40px 48px;
     }
 
-    /* ── Nav ── */
-    nav {
-      position: sticky; top: 0;
-      background: rgba(15,15,14,.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 48px;
-      display: flex; justify-content: space-between; align-items: center;
-      z-index: 50;
+    /* ── Top strip ── */
+    .topline {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      font-family: var(--sans); font-size: 11px; letter-spacing: .04em;
+      color: var(--ink-soft); padding-bottom: 10px;
+    }
+    .topline a { text-decoration: none; font-weight: 600; }
+    .topline a:hover { text-decoration: underline; }
+
+    /* ── Masthead ── */
+    .masthead { text-align: center; padding: 6px 0 10px; border-bottom: 1px solid var(--rule); }
+    .masthead h1 {
+      font-family: var(--blackletter); font-weight: 400;
+      font-size: clamp(44px, 8.4vw, 104px); line-height: 1; letter-spacing: .01em;
+    }
+    .masthead .motto {
+      font-family: var(--serif); font-style: italic; font-size: 13px;
+      color: var(--ink-soft); margin-top: 6px;
     }
 
-    .back {
-      color: var(--ink-soft); text-decoration: none; font-size: 13px;
-      font-weight: 500; display: flex; align-items: center; gap: 6px;
-      transition: color .2s;
+    .dateline {
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+      border-bottom: 3px double var(--rule); padding: 7px 0;
+      font-family: var(--sans); font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
     }
-    .back:hover { color: var(--ink); }
+    .dateline > :first-child { text-align: left; }
+    .dateline > :last-child { text-align: right; }
 
-    .nav-tag { font-size: 12px; color: var(--ink-muted); font-weight: 500; }
-
-    /* ── Layout ── */
-    main {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 72px 48px 120px;
+    /* ── Section index ── */
+    .sections {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 22px;
+      font-family: var(--sans); font-size: 12px; padding: 9px 0;
+      border-bottom: 1px solid var(--rule); margin-bottom: 22px;
     }
+    .sections a { text-decoration: none; }
+    .sections a:hover { text-decoration: underline; }
 
-    /* ── Header ── */
-    .doc-header { margin-bottom: 64px; }
-
-    .doc-meta {
-      font-size: 11px; font-weight: 600; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 20px;
-      display: flex; gap: 16px; align-items: center;
+    /* ── Typography ── */
+    .kicker {
+      font-family: var(--sans); font-size: 11px; font-weight: 800;
+      letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px;
     }
-
-    .doc-meta span { color: var(--ink-muted); font-weight: 400; letter-spacing: 0; text-transform: none; font-size: 12px; }
-
-    .doc-title {
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 700; letter-spacing: -.03em; line-height: 1.05;
-      margin-bottom: 20px;
+    .kicker .date { font-weight: 400; color: var(--ink-muted); letter-spacing: .04em; }
+    .hed {
+      font-family: var(--display); font-weight: 700; line-height: 1.08;
+      letter-spacing: -.005em; margin-bottom: 8px;
     }
-
-    .doc-title em { font-style: italic; color: var(--accent-soft); }
-
-    .doc-intro {
-      font-size: 16px; color: var(--ink-soft); font-weight: 300;
-      line-height: 1.7; border-left: 2px solid var(--border);
-      padding-left: 20px;
+    .hed a { text-decoration: none; }
+    .hed a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+    .dek { font-family: var(--serif); font-style: italic; color: var(--ink-soft); margin-bottom: 10px; line-height: 1.4; }
+    .byline {
+      font-family: var(--sans); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--ink-muted); margin-bottom: 10px;
     }
-
-    /* ── Sections ── */
-    .doc-section { margin-bottom: 56px; }
-
-    .section-label {
-      font-size: 10px; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 10px;
+    .body p {
+      font-size: 15.5px; line-height: 1.55; text-align: justify; hyphens: auto;
+      margin-bottom: 10px; color: var(--ink);
     }
-
-    h2 {
-      font-size: clamp(20px, 2.5vw, 26px);
-      font-weight: 700; letter-spacing: -.02em; line-height: 1.2;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
+    .body p.lede::first-letter {
+      font-family: var(--display); font-weight: 900; float: left;
+      font-size: 64px; line-height: .82; padding: 6px 8px 0 0;
     }
-
-    p {
-      font-size: 15px; line-height: 1.75;
-      color: var(--ink-soft); margin-bottom: 14px;
+    .place { font-family: var(--sans); font-weight: 800; font-size: 12px; letter-spacing: .06em; }
+    .src {
+      font-family: var(--sans); font-size: 11px; color: var(--ink-muted);
+      border-top: 1px solid var(--rule-soft); padding-top: 6px; margin-top: 6px;
     }
+    .src a { color: var(--ink); font-weight: 600; text-decoration: none; }
+    .src a:hover { text-decoration: underline; }
 
-    p strong { color: var(--ink); font-weight: 600; }
+    /* ── Front page grid ── */
+    .front {
+      display: grid; grid-template-columns: 2.2fr 1fr; gap: 0;
+      border-bottom: 3px double var(--rule); padding-bottom: 22px; margin-bottom: 22px;
+    }
+    .lead { padding-right: 24px; border-right: 1px solid var(--rule); }
+    .lead .hed { font-size: clamp(34px, 4.6vw, 56px); font-weight: 900; }
+    .lead .dek { font-size: 19px; }
+    .lead .cols { column-count: 2; column-gap: 24px; column-rule: 1px solid var(--rule-soft); }
 
-    /* ── Fact row ── */
-    .facts {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1px; background: var(--border);
-      border: 1px solid var(--border); border-radius: 12px;
-      overflow: hidden; margin-bottom: 24px;
+    figure.engraving { margin: 6px 0 14px; }
+    figure.engraving img { width: 100%; height: auto; display: block; border: 1px solid var(--rule); filter: grayscale(1) contrast(1.05); mix-blend-mode: multiply; }
+    figure.engraving figcaption {
+      font-family: var(--sans); font-size: 11px; color: var(--ink-soft);
+      padding-top: 6px; line-height: 1.4;
     }
 
-    .fact {
-      background: var(--surface); padding: 18px 16px;
+    .rail { padding-left: 24px; display: flex; flex-direction: column; }
+    .rail article { padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--rule); }
+    .rail article:last-child { border-bottom: none; margin-bottom: 0; }
+    .rail .hed { font-size: 22px; }
+
+    /* ── Stats box (like a markets table) ── */
+    .stats { border: 2px solid var(--rule); padding: 10px 12px; }
+    .stats h4 {
+      font-family: var(--sans); font-weight: 800; font-size: 11px; letter-spacing: .12em;
+      text-transform: uppercase; text-align: center; border-bottom: 1px solid var(--rule);
+      padding-bottom: 6px; margin-bottom: 4px;
     }
+    .stats table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 12px; }
+    .stats td { padding: 5px 0; border-bottom: 1px dotted var(--rule-soft); }
+    .stats tr:last-child td { border-bottom: none; }
+    .stats td:last-child { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; }
 
-    .fact-val {
-      font-size: 22px; font-weight: 700; color: var(--accent-soft);
-      letter-spacing: -.03em; line-height: 1; margin-bottom: 5px;
+    /* ── Section banner ── */
+    .banner {
+      display: flex; align-items: center; gap: 14px; margin: 4px 0 16px;
+      font-family: var(--sans); font-weight: 800; font-size: 13px;
+      letter-spacing: .18em; text-transform: uppercase;
     }
+    .banner::before, .banner::after { content: ''; flex: 1; border-top: 1px solid var(--rule); }
 
-    .fact-label { font-size: 11px; color: var(--ink-muted); line-height: 1.4; }
-
-    /* ── List ── */
-    .doc-list {
-      list-style: none; display: flex; flex-direction: column; gap: 10px;
-      margin-bottom: 16px;
+    /* ── Secondary stories grid ── */
+    .grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-bottom: 3px double var(--rule); padding-bottom: 22px; margin-bottom: 22px;
     }
+    .grid article { padding: 0 18px; border-left: 1px solid var(--rule); }
+    .grid article:first-child { padding-left: 0; border-left: none; }
+    .grid article:last-child { padding-right: 0; }
+    .grid .hed { font-size: 21px; }
+    .grid .body p { font-size: 14.5px; }
+    .grid.three { grid-template-columns: repeat(3, 1fr); }
 
-    .doc-list li {
-      display: flex; gap: 12px; font-size: 14px;
-      color: var(--ink-soft); line-height: 1.6;
+    /* ── Dossier (technologies) ── */
+    .dossier {
+      display: grid; grid-template-columns: 1fr 2fr; gap: 0;
+      border-bottom: 3px double var(--rule); padding-bottom: 22px; margin-bottom: 22px;
     }
-
-    .doc-list li::before {
-      content: '—'; color: var(--accent); flex-shrink: 0;
-      margin-top: 1px;
+    .dossier-intro { padding-right: 24px; border-right: 1px solid var(--rule); }
+    .dossier-intro .hed { font-size: 34px; font-style: italic; }
+    .dossier-list { padding-left: 24px; column-count: 2; column-gap: 24px; column-rule: 1px solid var(--rule-soft); }
+    .dossier-list section { break-inside: avoid; margin-bottom: 14px; }
+    .dossier-list h3 {
+      font-family: var(--display); font-size: 17px; font-weight: 700;
+      border-top: 2px solid var(--rule); padding-top: 6px; margin-bottom: 4px;
     }
+    .dossier-list p { font-size: 14px; line-height: 1.5; text-align: justify; hyphens: auto; }
 
-    .doc-list li strong { color: var(--ink); }
-
-    /* ── Note box ── */
-    .note {
-      background: var(--surface); border-left: 2px solid var(--accent);
-      border-radius: 0 10px 10px 0; padding: 14px 18px;
-      font-size: 13px; color: var(--ink-soft); line-height: 1.65;
-      margin-top: 16px;
+    /* ── Editorial ── */
+    .editorial {
+      display: grid; grid-template-columns: 2fr 1fr; gap: 0;
+      border-bottom: 3px double var(--rule); padding-bottom: 22px; margin-bottom: 22px;
     }
-
-    .note strong { color: var(--ink); }
-
-    /* ── Models table ── */
-    .model-row {
-      display: grid; grid-template-columns: 120px 1fr;
-      gap: 0; border: 1px solid var(--border);
-      border-radius: 12px; overflow: hidden; margin-bottom: 12px;
+    .editorial .main { padding-right: 24px; border-right: 1px solid var(--rule); }
+    .editorial .main .hed { font-size: 30px; }
+    .editorial .main .cols { column-count: 2; column-gap: 24px; column-rule: 1px solid var(--rule-soft); }
+    .editorial aside { padding-left: 24px; }
+    .pullquote {
+      font-family: var(--display); font-style: italic; font-size: 24px; line-height: 1.25;
+      border-top: 3px solid var(--rule); border-bottom: 1px solid var(--rule);
+      padding: 14px 0; margin-bottom: 12px;
     }
+    .pullquote cite { display: block; font-family: var(--sans); font-style: normal; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; margin-top: 8px; color: var(--ink-muted); }
 
-    .model-name {
-      background: var(--surface); padding: 14px 16px;
-      font-size: 14px; font-weight: 600; color: var(--ink);
-      display: flex; align-items: center;
-      border-right: 1px solid var(--border);
+    /* ── References (small print) ── */
+    .refs { column-count: 3; column-gap: 24px; column-rule: 1px solid var(--rule-soft); }
+    .refs li {
+      list-style: none; break-inside: avoid; font-family: var(--sans); font-size: 11.5px;
+      line-height: 1.45; padding: 0 0 7px; color: var(--ink-soft);
     }
+    .refs li b { color: var(--ink); }
+    .refs a { text-decoration: none; }
+    .refs a:hover { text-decoration: underline; }
 
-    .model-desc {
-      padding: 14px 16px; font-size: 13px;
-      color: var(--ink-soft); line-height: 1.55;
-      display: flex; align-items: center;
-    }
-
-    /* ── Sources ── */
-    .sources-list {
-      display: flex; flex-direction: column; gap: 8px;
-    }
-
-    .source-item {
-      display: flex; align-items: baseline; gap: 10px;
-      padding: 10px 14px; background: var(--surface);
-      border: 1px solid var(--border); border-radius: 10px;
-      font-size: 13px;
-    }
-
-    .source-item .source-name { font-weight: 500; color: var(--ink); flex-shrink: 0; }
-    .source-item .source-desc { color: var(--ink-muted); font-size: 12px; }
-
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding-top: 32px; text-align: center;
-      font-size: 12px; color: var(--ink-muted); line-height: 1.8;
+    .colophon {
+      margin-top: 22px; padding-top: 10px; border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      font-family: var(--sans); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted);
     }
 
     /* ── Responsive ── */
-    @media (max-width: 600px) {
-      nav { padding: 14px 20px; }
-      main { padding: 40px 20px 80px; }
-      .facts { grid-template-columns: 1fr 1fr; }
-      .facts .fact:last-child { grid-column: 1 / -1; }
-      .model-row { grid-template-columns: 1fr; }
-      .model-name { border-right: none; border-bottom: 1px solid var(--border); }
-      .nav-tag { display: none; }
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr 1fr; row-gap: 18px; }
+      .grid article { padding: 0 16px; }
+      .grid article:nth-child(odd) { padding-left: 0; border-left: none; }
+      .grid article:nth-child(even) { padding-right: 0; }
+      .grid.three { grid-template-columns: 1fr 1fr; }
+      .refs { column-count: 2; }
+    }
+    @media (max-width: 760px) {
+      body { padding: 0; }
+      .paper { padding: 14px 16px 32px; box-shadow: none; }
+      .topline { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .dateline { grid-template-columns: 1fr; text-align: center; gap: 2px; }
+      .dateline > :first-child, .dateline > :last-child { text-align: center; }
+      .front, .dossier, .editorial { grid-template-columns: 1fr; }
+      .lead, .dossier-intro, .editorial .main { padding-right: 0; border-right: none; padding-bottom: 16px; border-bottom: 1px solid var(--rule); margin-bottom: 16px; }
+      .rail, .dossier-list, .editorial aside { padding-left: 0; }
+      .lead .cols, .editorial .main .cols, .dossier-list { column-count: 1; }
+      .grid, .grid.three { grid-template-columns: 1fr; }
+      .grid article { padding: 0 0 16px !important; border-left: none !important; border-bottom: 1px solid var(--rule); margin-bottom: 16px; }
+      .grid article:last-child { border-bottom: none; margin-bottom: 0; }
+      .refs { column-count: 1; }
+      .body p { text-align: left; }
     }
   </style>
 </head>
 <body>
 
-<div class="scroll-bar" id="sb"></div>
+<div class="paper">
 
-<nav>
-  <a href="index.html" class="back">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-      <polyline points="9 2 4 7 9 12"/>
-    </svg>
-    Samuel Gomes
-  </a>
-  <span class="nav-tag">Veille technologique · BTS SIO 2026</span>
-</nav>
+  <!-- Top strip -->
+  <div class="topline">
+    <a href="index.html">← Retour au portfolio de Samuel Gomes</a>
+    <span>Veille technologique · Compétence C6 · BTS SIO SLAM</span>
+  </div>
 
-<main>
-
-  <header class="doc-header">
-    <div class="doc-meta">
-      Veille technologique <span>· Compétence C6 · BTS SIO SLAM · Juin 2026</span>
-    </div>
-    <h1 class="doc-title">Anthropic &amp; <em>l'IA de confiance</em></h1>
-    <p class="doc-intro">
-      Cette veille porte sur Anthropic, entreprise spécialisée en sécurité de l'IA,
-      créatrice du modèle Claude et de l'API éponyme. J'ai suivi de près ses évolutions —
-      jusqu'à ses toutes dernières sorties, <strong>Claude Fable 5 et Mythos 5</strong> (juin 2026).
-      Pour rassembler et recouper ces informations, je me suis appuyé sur les
-      <strong>outils de recherche Google</strong> (Google Search et Google Actualités).
-    </p>
+  <!-- Masthead -->
+  <header class="masthead">
+    <h1>Le Courrier de l'Orbite</h1>
+    <div class="motto">« Toute l'actualité de SpaceX qui mérite d'être lancée »</div>
   </header>
 
-  <!-- 1. L'entreprise -->
-  <section class="doc-section">
-    <div class="section-label">01 — Contexte</div>
-    <h2>Anthropic, l'entreprise</h2>
-    <div class="facts">
-      <div class="fact">
-        <div class="fact-val">2021</div>
-        <div class="fact-label">Fondée à San Francisco</div>
+  <div class="dateline">
+    <span>Vol. I · N° 15</span>
+    <span>Lundi 16 novembre 2026</span>
+    <span>Édition de veille · Gratuit</span>
+  </div>
+
+  <nav class="sections" aria-label="Rubriques">
+    <a href="#une">À la une</a>
+    <a href="#nouvelles">En bref</a>
+    <a href="#editorial">Éditorial</a>
+    <a href="#references">Références</a>
+  </nav>
+
+  <!-- ===== FRONT PAGE ===== -->
+  <section class="front" id="une">
+    <article class="lead">
+      <div class="kicker">Starship · Flight 15 <span class="date">— 15 nov. 2026</span></div>
+      <h2 class="hed">
+        <a href="https://phys.org/news/2026-11-spacex-starship-orbit-captured-pad.html" target="_blank" rel="noopener noreferrer">
+          Revenu de l'orbite, Starship est rattrapé en plein vol par sa tour de lancement
+        </a>
+      </h2>
+      <p class="dek">Une première mondiale : après 22 heures en orbite, le plus grand vaisseau jamais construit est cueilli par deux bras mécaniques.</p>
+      <div class="byline"><span class="place">Starbase (Texas)</span> · D'après Associated Press</div>
+
+      <figure class="engraving">
+        <img src="img/spacex-nb.webp" width="860" height="404" alt="La tour de lancement de Starbase avec ses bras mécaniques, tenant le vaisseau Starship" />
+        <figcaption><b>Photo SpaceX :</b> la tour de Starbase, au Texas, et ses bras mécaniques (« chopsticks ») tenant le vaisseau Starship.</figcaption>
+      </figure>
+
+      <div class="body cols">
+        <p class="lede">Lancé le 13 novembre, le vaisseau Starship a été rattrapé le lendemain par les bras de sa tour de lancement, environ 22 heures après le décollage. C'est la première fois qu'un Starship revenant de l'espace est récupéré de cette manière.</p>
+        <p>Pendant ce vol, il a fait 14 tours de la Terre et déployé <b>26 satellites Starlink</b>. Son bouclier thermique a bien résisté à la rentrée, preuve selon SpaceX que le vaisseau peut être <b>entièrement réutilisé</b>. Seul raté : le booster Super Heavy, détruit au retour.</p>
       </div>
-      <div class="fact">
-        <div class="fact-val">D. Amodei</div>
-        <div class="fact-label">CEO &amp; cofondateur</div>
+      <div class="src">Source : AP, relayé par Phys.org, 15 nov. 2026 — <a href="https://phys.org/news/2026-11-spacex-starship-orbit-captured-pad.html" target="_blank" rel="noopener noreferrer">lire l'article ↗</a></div>
+    </article>
+
+    <aside class="rail">
+      <article>
+        <div class="kicker">Télécoms <span class="date">— 4 nov. 2026</span></div>
+        <h3 class="hed">Starlink Mobile s'allie à Qualcomm</h3>
+        <div class="body">
+          <p>SpaceX va installer des <b>dizaines de milliers d'antennes-relais</b> pour compléter ses satellites et lancer son propre réseau mobile aux États-Unis, à partir de 2027.</p>
+        </div>
+        <div class="src">CNBC — <a href="https://www.cnbc.com/2026/11/04/spacex-strikes-deal-with-qualcomm-for-mobile-network-infrastructure.html" target="_blank" rel="noopener noreferrer">lire ↗</a></div>
+      </article>
+
+      <div class="stats" aria-label="Chiffres du jour">
+        <h4>Les chiffres du jour</h4>
+        <table>
+          <tr><td>Vols de Starship (succès / total)</td><td>10 / 15</td></tr>
+          <tr><td>Satellites Starlink en orbite</td><td>11&nbsp;000+</td></tr>
+          <tr><td>Record de vols, un même booster</td><td>37</td></tr>
+          <tr><td>Prix d'introduction en Bourse</td><td>135&nbsp;$</td></tr>
+        </table>
       </div>
-      <div class="fact">
-        <div class="fact-val">Sûreté</div>
-        <div class="fact-label">Priorité de recherche</div>
-      </div>
-    </div>
-    <p>
-      Anthropic est fondée en 2021 par <strong>Dario Amodei</strong> et <strong>Daniela Amodei</strong>,
-      avec d'anciens chercheurs d'OpenAI. Son objectif : développer une IA <strong>sûre, fiable
-      et interprétable</strong>. Soutenue par <strong>Google</strong> et <strong>Amazon</strong>,
-      elle est aujourd'hui l'un des acteurs centraux de l'IA générative.
-    </p>
+    </aside>
   </section>
 
-  <!-- 2. Constitutional AI -->
-  <section class="doc-section">
-    <div class="section-label">02 — Innovation</div>
-    <h2>Constitutional AI — l'alignement par principes</h2>
-    <p>
-      La principale contribution scientifique d'Anthropic est la méthode
-      <strong>Constitutional AI (CAI)</strong>. Contrairement au RLHF classique
-      (Reinforcement Learning from Human Feedback), le CAI fait apprendre au modèle
-      un ensemble de <strong>principes éthiques explicites</strong> — une "constitution" —
-      lui permettant d'évaluer et corriger ses propres réponses.
-    </p>
-    <ul class="doc-list">
-      <li><strong>Utile :</strong> répondre efficacement aux demandes légitimes.</li>
-      <li><strong>Inoffensif :</strong> refuser ou reformuler les contenus dangereux.</li>
-      <li><strong>Honnête :</strong> ne pas inventer, reconnaître ses limites.</li>
-    </ul>
-    <p>
-      Cette approche réduit la dépendance aux annotations humaines massives et produit
-      des modèles plus cohérents dans leurs comportements à l'échelle.
-    </p>
-    <div class="note">
-      <strong>Impact métier :</strong> pour un développeur SLAM, comprendre l'alignement
-      des LLM est fondamental pour concevoir des prompts robustes et anticiper les limites
-      de refus d'un modèle en production.
-    </div>
+  <!-- ===== IN BRIEF ===== -->
+  <div class="banner" id="nouvelles">En bref</div>
+  <section class="grid">
+    <article>
+      <div class="kicker">Starship <span class="date">— 28 sept. 2026</span></div>
+      <h3 class="hed">Starship atteint l'orbite pour la première fois</h3>
+      <div class="body">
+        <p>Au 14ᵉ vol, le vaisseau atteint l'orbite et y déploie 26 satellites Starlink V3.</p>
+      </div>
+      <div class="src">Space.com — <a href="https://www.space.com/news/live/spacex-starship-flight-14-live-updates-sept-28-2026-starship-first-orbital-launch-attempt" target="_blank" rel="noopener noreferrer">lire ↗</a></div>
+    </article>
+
+    <article>
+      <div class="kicker">Falcon 9 <span class="date">— 25 août 2026</span></div>
+      <h3 class="hed">Un booster vole pour la 37ᵉ fois</h3>
+      <div class="body">
+        <p>Le booster B1067 bat le record de réutilisation : la fusée réutilisable est devenue la routine.</p>
+      </div>
+      <div class="src">UPI — <a href="https://www.upi.com/Top_News/US/2026/08/25/Falcon-9-booster-sets-reuse-record/7011787681645/" target="_blank" rel="noopener noreferrer">lire ↗</a></div>
+    </article>
+
+    <article>
+      <div class="kicker">Bourse <span class="date">— 12 juin 2026</span></div>
+      <h3 class="hed">La plus grosse entrée en Bourse de l'histoire</h3>
+      <div class="body">
+        <p>SpaceX lève environ <b>75 milliards de dollars</b> sur le Nasdaq.</p>
+      </div>
+      <div class="src">CNBC — <a href="https://www.cnbc.com/2026/06/12/spacex-ipo-spcx-live-updates.html" target="_blank" rel="noopener noreferrer">lire ↗</a></div>
+    </article>
+
+    <article>
+      <div class="kicker">IA <span class="date">— 2 févr. 2026</span></div>
+      <h3 class="hed">SpaceX fusionne avec xAI</h3>
+      <div class="body">
+        <p>Elon Musk réunit son entreprise spatiale et son entreprise d'IA, créatrice de Grok.</p>
+      </div>
+      <div class="src">Advanced Television — <a href="https://www.advanced-television.com/2026/02/03/musk-merges-spacex-with-xai" target="_blank" rel="noopener noreferrer">lire ↗</a></div>
+    </article>
   </section>
 
-  <!-- 3. Claude -->
-  <section class="doc-section">
-    <div class="section-label">03 — Le produit</div>
-    <h2>La famille Claude</h2>
-    <p>
-      Claude est le nom de la famille de modèles d'Anthropic. Chaque version propose
-      un équilibre différent entre vitesse, coût et capacité de raisonnement.
-    </p>
-    <div class="model-row">
-      <div class="model-name">Haiku</div>
-      <div class="model-desc">Le plus rapide et économique — idéal pour les applications temps réel et les tâches simples.</div>
-    </div>
-    <div class="model-row">
-      <div class="model-name">Sonnet</div>
-      <div class="model-desc">Modèle de production équilibré — excellent rapport capacité / coût pour la majorité des cas d'usage.</div>
-    </div>
-    <div class="model-row">
-      <div class="model-name">Opus</div>
-      <div class="model-desc">Le plus puissant — raisonnement complexe, analyse approfondie, tâches multi-étapes exigeantes.</div>
-    </div>
-    <p style="margin-top:16px;">
-      À ces trois gammes s'ajoute désormais une <strong>nouvelle génération</strong>, bien plus
-      puissante, dévoilée en juin 2026 — détaillée juste en dessous.
-    </p>
+  <!-- ===== EDITORIAL ===== -->
+  <section class="editorial" id="editorial">
+    <article class="main">
+      <div class="kicker">Éditorial</div>
+      <h2 class="hed">Échouer vite pour réussir</h2>
+      <div class="byline">Par Samuel Gomes</div>
+      <div class="body cols">
+        <p class="lede">Cinq échecs sur quinze vols : pour SpaceX, ce n'est pas un désastre, c'est une méthode. Tester, mesurer, corriger, recommencer, exactement comme en développement agile.</p>
+        <p>Derrière chaque atterrissage, il y a surtout du <b>logiciel</b> : guidage, pilotage autonome, gestion de milliers de satellites. Un domaine où le code et l'IA comptent autant que les moteurs.</p>
+      </div>
+    </article>
+    <aside>
+      <blockquote class="pullquote">
+        « C'était presque magique. »
+        <cite>Jared Isaacman, administrateur de la NASA, 14 nov. 2026</cite>
+      </blockquote>
+      <div class="body">
+        <p><b>Méthode de veille.</b> Informations rassemblées avec Google Search et Google Actualités, puis vérifiées dans les articles cités.</p>
+      </div>
+    </aside>
   </section>
 
-  <!-- 4. Nouveautés -->
-  <section class="doc-section">
-    <div class="section-label">04 — Nouveautés</div>
-    <h2>Claude Fable 5 &amp; Mythos 5 — la nouvelle génération</h2>
-    <p>
-      Le <strong>9 juin 2026</strong>, Anthropic a dévoilé deux nouveaux modèles « classe Mythos »,
-      un vrai saut de capacités sur les tâches longues et autonomes. Les deux partagent la même
-      architecture, mais pas le même niveau d'accès.
-    </p>
-    <div class="model-row">
-      <div class="model-name">Fable 5</div>
-      <div class="model-desc">La version <strong>grand public</strong>, garde-fous de sécurité actifs. Disponible sur l'API Claude, AWS Bedrock, Vertex AI et Microsoft Foundry.</div>
-    </div>
-    <div class="model-row">
-      <div class="model-name">Mythos 5</div>
-      <div class="model-desc">La version <strong>sans garde-fous</strong>, réservée à des usages autorisés (cybersécurité, recherche) via le programme restreint Project Glasswing.</div>
-    </div>
-    <ul class="doc-list">
-      <li><strong>Code :</strong> Stripe rapporte que Fable 5 « a compressé des mois d'ingénierie en quelques jours ».</li>
-      <li><strong>Vision :</strong> extraction de données depuis des figures scientifiques, reconstruction d'applis web à partir de captures d'écran.</li>
-      <li><strong>Contexte très long :</strong> maintien de l'attention sur des millions de tokens.</li>
-      <li><strong>Recherche :</strong> Mythos 5 a accéléré environ 10× certaines tâches de conception de protéines.</li>
-    </ul>
-    <div class="note">
-      <strong>La sécurité d'abord :</strong> sur les sujets sensibles (cybersécurité, biologie/chimie),
-      Fable 5 bloque la demande et la redirige automatiquement vers <strong>Claude Opus 4.8</strong> —
-      ce qui ne concerne que moins de 5 % des sessions. Anthropic a publié ces modèles quelques jours
-      après avoir averti que l'IA devenait « trop dangereuse », d'où ces limites strictes.
-    </div>
-  </section>
+  <!-- ===== REFERENCES ===== -->
+  <div class="banner" id="references">Références</div>
+  <ol class="refs">
+    <li><b>15/11/2026</b> — AP / Phys.org, Starship rattrapé par la tour. <a href="https://phys.org/news/2026-11-spacex-starship-orbit-captured-pad.html" target="_blank" rel="noopener noreferrer">phys.org ↗</a></li>
+    <li><b>04/11/2026</b> — CNBC, accord SpaceX × Qualcomm. <a href="https://www.cnbc.com/2026/11/04/spacex-strikes-deal-with-qualcomm-for-mobile-network-infrastructure.html" target="_blank" rel="noopener noreferrer">cnbc.com ↗</a></li>
+    <li><b>28/09/2026</b> — Space.com, Starship Flight 14. <a href="https://www.space.com/news/live/spacex-starship-flight-14-live-updates-sept-28-2026-starship-first-orbital-launch-attempt" target="_blank" rel="noopener noreferrer">space.com ↗</a></li>
+    <li><b>25/08/2026</b> — UPI, record de réutilisation Falcon 9. <a href="https://www.upi.com/Top_News/US/2026/08/25/Falcon-9-booster-sets-reuse-record/7011787681645/" target="_blank" rel="noopener noreferrer">upi.com ↗</a></li>
+    <li><b>12/06/2026</b> — CNBC, entrée en Bourse de SpaceX. <a href="https://www.cnbc.com/2026/06/12/spacex-ipo-spcx-live-updates.html" target="_blank" rel="noopener noreferrer">cnbc.com ↗</a></li>
+    <li><b>03/02/2026</b> — Advanced Television, fusion SpaceX × xAI. <a href="https://www.advanced-television.com/2026/02/03/musk-merges-spacex-with-xai" target="_blank" rel="noopener noreferrer">advanced-television.com ↗</a></li>
+  </ol>
 
-  <!-- 5. L'API -->
-  <section class="doc-section">
-    <div class="section-label">05 — Écosystème</div>
-    <h2>L'API Claude et le développement d'agents</h2>
-    <p>
-      L'API Claude expose une interface REST simple utilisée pour intégrer les modèles
-      dans des applications tierces. Elle est disponible via les SDK Python et Node.js
-      officiels d'Anthropic.
-    </p>
-    <ul class="doc-list">
-      <li><strong>Messages API :</strong> conversations multi-tours avec system prompt.</li>
-      <li><strong>Tool Use :</strong> le modèle appelle des fonctions externes (recherche, calcul, lecture de fichiers).</li>
-      <li><strong>Extended Thinking :</strong> raisonnement interne visible avant la réponse finale.</li>
-    </ul>
-    <p>
-      Ces fonctionnalités permettent de construire des <strong>agents autonomes</strong> —
-      des programmes capables de planifier, d'agir sur des outils et d'itérer jusqu'à
-      accomplir une tâche complexe sans intervention humaine. C'est l'approche que j'ai
-      mise en œuvre dans mon projet.
-    </p>
-    <div class="note">
-      <strong>Lien avec mon projet :</strong> j'ai utilisé l'API Claude pour construire
-      un agent avec boucle de raisonnement autonome (tool use loop), déployé via Flask.
-      Cette expérience directe m'a permis de comprendre concrètement les enjeux
-      de latence, de gestion des tokens et de conception des schémas d'outils.
-    </div>
-  </section>
+  <div class="colophon">
+    <span>Le Courrier de l'Orbite — journal fictif réalisé par Samuel Gomes</span>
+    <span>BTS SIO SLAM · Veille technologique C6 · MAJ 16/11/2026</span>
+  </div>
 
-  <!-- 5. Contexte réglementaire -->
-  <section class="doc-section">
-    <div class="section-label">06 — Réglementation</div>
-    <h2>Contexte juridique et AI Act</h2>
-    <p>
-      L'Union Européenne a adopté en 2024 l'<strong>AI Act</strong>, premier cadre
-      réglementaire au monde pour l'intelligence artificielle. Il classe les systèmes
-      d'IA par niveau de risque et impose des obligations de transparence, de traçabilité
-      et d'évaluation aux fournisseurs comme aux utilisateurs.
-    </p>
-    <ul class="doc-list">
-      <li>Les <strong>modèles à usage général</strong> (GPAI) comme Claude sont soumis à des exigences de documentation et d'évaluation des risques.</li>
-      <li>Les applications à <strong>haut risque</strong> (recrutement, crédit, santé) nécessitent un contrôle humain obligatoire.</li>
-      <li>Le <strong>RGPD</strong> s'applique dès que des données personnelles transitent dans les requêtes API.</li>
-    </ul>
-    <div class="note">
-      <strong>Impact professionnel :</strong> tout développeur déployant une solution
-      basée sur un LLM en Europe doit maîtriser ces obligations — notamment la
-      minimisation des données et la traçabilité des décisions automatisées.
-    </div>
-  </section>
-
-  <!-- 6. Sources -->
-  <section class="doc-section">
-    <div class="section-label">07 — Sources</div>
-    <h2>Sources utilisées</h2>
-    <div class="sources-list">
-      <div class="source-item">
-        <span class="source-name">Outils Google</span>
-        <span class="source-desc">Google Search &amp; Google Actualités — recherche et recoupement des informations</span>
-      </div>
-      <div class="source-item">
-        <span class="source-name">anthropic.com/news</span>
-        <span class="source-desc">Annonce officielle de Claude Fable 5 et Mythos 5 (juin 2026)</span>
-      </div>
-      <div class="source-item">
-        <span class="source-name">docs.anthropic.com</span>
-        <span class="source-desc">Documentation officielle de l'API Claude</span>
-      </div>
-      <div class="source-item">
-        <span class="source-name">Anthropic Academy</span>
-        <span class="source-desc">Parcours de certification et ressources pédagogiques</span>
-      </div>
-      <div class="source-item">
-        <span class="source-name">GitHub — anthropic-cookbook</span>
-        <span class="source-desc">Exemples pratiques d'intégration de l'API</span>
-      </div>
-      <div class="source-item">
-        <span class="source-name">Anthropic Research Blog</span>
-        <span class="source-desc">Articles de recherche sur le Constitutional AI et l'alignement</span>
-      </div>
-      <div class="source-item">
-        <span class="source-name">EUR-Lex — AI Act 2024</span>
-        <span class="source-desc">Texte officiel du règlement européen sur l'IA</span>
-      </div>
-      <div class="source-item">
-        <span class="source-name">CNIL — IA et données personnelles</span>
-        <span class="source-desc">Recommandations sur l'usage des LLM en conformité RGPD</span>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div>Samuel Gomes · BTS SIO SLAM · 2026</div>
-    <div>Veille technologique — Compétence C6</div>
-  </footer>
-
-</main>
-
-<script>
-  const sb = document.getElementById('sb');
-  window.addEventListener('scroll', () => {
-    const d = document.documentElement;
-    sb.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
-  });
-</script>
+</div>
 
 </body>
 </html>

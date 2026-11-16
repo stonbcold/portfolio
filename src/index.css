@@ -195,7 +195,18 @@ nav .nav-links a:hover::after {
   justify-content: center;
   overflow: hidden;
 }
+.hero-ascii {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* fade the bottom edge into the page */
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+}
 .hero-inner {
+  position: relative;
+  z-index: 1;
   text-align: center;
   will-change: transform, opacity;
   padding: 0 24px;
@@ -356,6 +367,56 @@ section.block {
 }
 .statement-block .muted {
   color: var(--ink-mute);
+}
+
+/* About: text + wandering butterfly (Lottie) */
+.about-row {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+}
+.about-row .statement-block {
+  flex: 0 1 auto;
+}
+.butterfly-zone {
+  position: relative;
+  flex: 1 1 280px;
+  min-height: 260px;
+  pointer-events: none;
+}
+.butterfly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+/* The Lottie butterfly is drawn side-on, body tilted ~40deg.
+   A mirrored copy (reflected across the body axis) adds the other wing,
+   then the pair is rotated so the body stands upright. */
+.bf-pair {
+  position: absolute;
+  inset: 0;
+  transform-origin: 41.8% 77.1%; /* middle of the body */
+  transform: rotate(50deg);
+}
+.bf-wing {
+  position: absolute;
+  inset: 0;
+}
+.bf-wing--left {
+  transform-origin: 41.8% 77.1%;
+  transform: rotate(-50deg) translateX(3.5%) rotate(50deg)
+    rotate(39.7deg) scaleY(-1) rotate(-39.7deg);
+}
+@media (max-width: 760px) {
+  .about-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .butterfly-zone {
+    flex: none;
+    min-height: 180px;
+  }
 }
 
 /* ====== WORK ====== */
@@ -954,4 +1015,77 @@ footer a {
   .cursor {
     display: none;
   }
+}
+
+/* ====== WORK CAROUSEL (FlexCarousel) ====== */
+.work-carousel {
+  position: relative;
+  width: 100%;
+  height: min(78vh, 720px);
+  margin-top: 24px;
+  color: var(--ink);
+}
+.work-carousel .flex-carousel__title {
+  font-family: inherit;
+  font-size: 18px;
+}
+.work-carousel .flex-carousel__subtitle,
+.work-carousel .flex-carousel__count {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.work-detail {
+  max-width: 720px;
+  margin: 48px auto 0;
+  text-align: center;
+  animation: work-detail-in 0.5s var(--ease) both;
+}
+.work-detail p {
+  color: var(--ink-soft);
+  font-size: 17px;
+  line-height: 1.6;
+}
+.work-detail-foot {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+.work-detail-link {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+}
+@keyframes work-detail-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 640px) {
+  .work-carousel { height: 64vh; }
+}
+
+/* Hidden host for the live Strands animation used as a carousel texture */
+.strands-source {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 600px;
+  height: 600px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+.strands-source img {
+  display: block;
+  width: 100%;
+  height: auto;
 }

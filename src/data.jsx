@@ -1,3 +1,7 @@
+import nnVizImg from "./img/nn-viz-demo-animation.webp";
+import chessImg from "./img/1_8AEkwxyf2jbAGvDZ9ongDQ.webp";
+import javaGameImg from "./img/java-game-square.webp";
+
 // ====== SOCIAL LINKS ======
 // TODO Samuel: remplace ces deux URLs par tes vrais profils.
 export const LINKS = {
@@ -11,6 +15,7 @@ export const PROJECTS = [
   {
     num: "01",
     title: "Moteur d'échecs CNN",
+    image: chessImg, // card image (replaces the SVG visual)
     short: "Moteur d'échecs CNN",
     desc: "Réseau de neurones convolutionnel entraîné sur mes parties Chess.com, avec self-play loop et correction Stockfish. Interface Flask, pipeline PyTorch complet.",
     meta: "PyTorch · Flask · Stockfish",
@@ -40,32 +45,11 @@ export const PROJECTS = [
   },
   {
     num: "02",
-    title: "Projet Anthropic",
-    short: "Projet Anthropic",
-    desc: "Application construite autour de l'API Claude d'Anthropic : intégration du modèle, gestion du contexte et du tool use, et déploiement d'un agent capable de raisonner et d'agir sur des tâches concrètes.",
-    meta: "Claude API · Python · Agents",
-    tags: ["Claude API", "Python", "Agents"],
-    live: true,
-    link: "anthropic.html",
-    gradient: "linear-gradient(135deg,#eef0f2,#e3e6e9)",
-    visual: (
-      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#a7abb0" strokeWidth="3" strokeLinecap="round">
-          <line x1="40" y1="14" x2="40" y2="66" />
-          <line x1="18" y1="26" x2="62" y2="54" />
-          <line x1="62" y1="26" x2="18" y2="54" />
-        </g>
-        <circle cx="40" cy="40" r="6" fill="#82868c" />
-      </svg>
-    ),
-  },
-  {
-    num: "03",
     title: "Chatbot conversationnel",
     short: "Chatbot conversationnel",
-    desc: "Assistant capable de tenir une conversation naturelle avec compréhension contextuelle. Intégration de l'API Anthropic et gestion de l'historique de session.",
-    meta: "Python · NLP · API Claude",
-    tags: ["Python", "NLP", "API Claude"],
+    desc: "Assistant capable de tenir une conversation naturelle avec compréhension contextuelle. Base de réponses et historique de session stockés en JSON.",
+    meta: "Python · NLP · JSON",
+    tags: ["Python", "NLP", "JSON"],
     live: false,
     gradient: "linear-gradient(135deg,#ece8f0,#e0dcec)",
     visual: (
@@ -94,8 +78,10 @@ export const PROJECTS = [
     ),
   },
   {
-    num: "04",
+    num: "03",
     title: "Réseau de neurones from scratch",
+    image: nnVizImg, // card image (replaces the SVG visual)
+    animated: true, // animated webp: rendered as a live texture
     short: "Réseau de neurones",
     desc: "Implémentation d'architectures neuronales sans framework — forward, backprop, descente de gradient — pour comprendre le deep learning de l'intérieur.",
     meta: "Python · NumPy · Deep Learning",
@@ -123,8 +109,9 @@ export const PROJECTS = [
     ),
   },
   {
-    num: "05",
+    num: "04",
     title: "Mini-jeu Java",
+    image: javaGameImg, // card image (replaces the SVG visual)
     short: "Mini-jeu Java",
     desc: "Développement d'un jeu en Java pour expérimenter la POO, la gestion d'événements et le rendu graphique avec Swing.",
     meta: "Java · POO · Game Dev",
@@ -185,10 +172,16 @@ export const SKILLS = [
 // ====== PATH ======
 export const PATH = [
   {
-    date: "2024 — Aujourd'hui",
-    title: "Développeur Junior",
-    place: "Projets personnels & exploration",
-    desc: "Développement de plusieurs projets — chatbot, réseau neuronal, moteur d'échecs CNN, jeu UE5 — pour consolider mes compétences en backend, full-stack et IA.",
+    date: "2022 — 2023",
+    title: "Stage en entreprise",
+    place: "Rent A Car",
+    desc: "Première immersion professionnelle : fonctionnement d'une entreprise, process internes et travail en équipe.",
+  },
+  {
+    date: "Mars 2024 — Juillet 2024",
+    title: "Développeur WordPress",
+    place: "Rent A Car",
+    desc: "Amélioration du site internet de l'agence sous WordPress : mises à jour, ajustements de contenu et de mise en page, pour un site plus clair et plus efficace.",
   },
   {
     date: "2024 — 2025",
@@ -203,9 +196,9 @@ export const PATH = [
     desc: "Certifications Google Cloud en IA générative et MLOps, parcours Anthropic Academy, étude active des architectures neuronales modernes.",
   },
   {
-    date: "2022 — 2023",
-    title: "Stage en entreprise",
-    place: "Rent A Car",
-    desc: "Première immersion professionnelle : fonctionnement d'une entreprise, process internes et travail en équipe.",
+    date: "2024 — Aujourd'hui",
+    title: "Développeur Junior",
+    place: "Projets personnels & exploration",
+    desc: "Développement de plusieurs projets — chatbot, réseau neuronal, moteur d'échecs CNN, jeu UE5 — pour consolider mes compétences en backend, full-stack et IA.",
   },
 ];
