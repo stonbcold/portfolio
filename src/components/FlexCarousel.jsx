@@ -281,6 +281,7 @@ const FlexCarousel = ({
   interval = 4,
   captions = true,
   captureWheel = true,
+  initialIndex = 0,
   onChange,
   onSelect,
   className = '',
@@ -291,7 +292,7 @@ const FlexCarousel = ({
   const itemsRef = useRef(items);
   const engineRef = useRef(null);
   const callbacksRef = useRef({ onChange, onSelect });
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(initialIndex);
   const [revealed, setRevealed] = useState(false);
   const [focusOpen, setFocusOpen] = useState(false);
 
@@ -324,7 +325,8 @@ const FlexCarousel = ({
       focusOnClick,
       autoplay,
       interval,
-      captureWheel
+      captureWheel,
+      initialIndex
     };
     engineRef.current?.wake();
   });
@@ -766,7 +768,8 @@ const FlexCarousel = ({
       if (!introState.running && !introState.done) {
         const allSettled = slots.every(slot => slot.loaded || slot.failed);
         if (allSettled || now - introState.readyAt > 3500) {
-          goal = snapPoint(m, goal);
+          const startAt = s.initialIndex ? ((s.initialIndex % n) + n) % n : -1;
+          goal = startAt >= 0 ? m.centers[startAt] : snapPoint(m, goal);
           pos = goal;
           beginIntro(s, m);
         }

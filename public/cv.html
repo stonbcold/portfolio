@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV — Samuel Gomes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #ecedef; --ink: #161513; --ink-mute: #6d6a64; --line: rgba(22,21,19,.15); }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+      padding: 24px 16px 64px;
+    }
+    header {
+      max-width: 860px;
+      margin: 0 auto 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    h1 { font-family: "Archivo", sans-serif; font-weight: 800; font-size: 22px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .actions a {
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      padding: 8px 18px;
+      transition: background .25s, color .25s;
+    }
+    .actions a:hover { background: var(--ink); color: var(--bg); }
+    .sheet {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 60px rgba(0,0,0,.08);
+    }
+    .sheet img { display: block; width: 100%; height: auto; }
+    @media print {
+      body { padding: 0; background: #fff; }
+      header { display: none; }
+      .sheet { border: 0; box-shadow: none; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Samuel Gomes — CV</h1>
+    <div class="actions">
+      <a href="index.html">← Retour au portfolio</a>
+      <a href="img/1780352822517.jpeg" download="CV-Samuel-Gomes.jpeg">Télécharger</a>
+    </div>
+  </header>
+  <main class="sheet">
+    <img src="img/1780352822517.jpeg" alt="CV de Samuel Gomes, étudiant en BTS SIO option SLAM" />
+  </main>
+</body>
+</html>

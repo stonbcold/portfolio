@@ -147,6 +147,7 @@ export const SKILLS = [
       ["Python", "Principal"],
       ["Java", "Avancé"],
       ["HTML / CSS", "Solide"],
+      ["SQL", "Débutant"],
     ],
   },
   {
@@ -163,8 +164,9 @@ export const SKILLS = [
     title: "Domaines & outils",
     items: [
       ["Backend / API", "Domaine"],
-      ["Full-stack", "Domaine"],
       ["Git / Git LFS", "Versioning"],
+      ["React", "Débutant"],
+      ["Node.js", "Débutant"],
     ],
   },
 ];
@@ -180,7 +182,7 @@ export const PATH = [
   {
     date: "Mars 2024 — Juillet 2024",
     title: "Développeur WordPress",
-    place: "Rent A Car",
+    place: "ILT Informatique",
     desc: "Amélioration du site internet de l'agence sous WordPress : mises à jour, ajustements de contenu et de mise en page, pour un site plus clair et plus efficace.",
   },
   {

@@ -163,6 +163,15 @@ nav .nav-links a::after {
 nav .nav-links a:hover::after {
   width: 100%;
 }
+nav .nav-links a.nav-cv {
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 2px 14px;
+  margin-top: -3px;
+}
+nav .nav-links a.nav-cv::after {
+  display: none;
+}
 
 /* ====== SCROLL % ====== */
 .scroll-pct {

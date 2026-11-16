@@ -107,6 +107,7 @@ export default function App() {
             <a href="#caps">Stack</a>
             <a href="veille.html">Veille</a>
             <a href="#contact">Contact</a>
+            <a href="cv.html" className="nav-cv">CV</a>
           </div>
         </nav>
 
@@ -173,6 +174,34 @@ export default function App() {
           </div>
         </section>
 
+
+        {/* PRÉSENTATION */}
+        <section className="block" id="intro">
+          <div className="container">
+            <div className="sec-head">
+              <div>
+                <span className="sec-index">Présentation</span>
+                <h2 className="sec-title fade-up">
+                  Qui suis-<em>je</em> ?
+                </h2>
+              </div>
+            </div>
+            <p className="statement-block">
+              <BlurText
+                text="Je m'appelle Samuel, j'ai 19 ans et je suis étudiant en BTS."
+                delay={60}
+                animateBy="words"
+              />{" "}
+              <span className="muted">
+                <BlurText
+                  text="Passionné par le développement et l'intelligence artificielle, je passe mon temps libre à créer des projets, explorer de nouvelles technologies et apprendre comment fonctionnent les systèmes de l'intérieur."
+                  delay={40}
+                  animateBy="words"
+                />
+              </span>
+            </p>
+          </div>
+        </section>
 
         {/* ABOUT */}
         <section className="block" id="about">
@@ -449,7 +478,9 @@ function Work() {
       })),
     [strandsCanvas, imageCanvases]
   );
-  const [active, setActive] = useState(0);
+  // The chatbot card sits in the centre when the carousel first appears.
+  const startIndex = Math.max(0, PROJECTS.findIndex((p) => p.num === STRANDS_PROJECT));
+  const [active, setActive] = useState(startIndex);
   const p = PROJECTS[active] || PROJECTS[0];
 
   return (
@@ -483,6 +514,7 @@ function Work() {
           captions={true}
           captureWheel={false}
           focusOnClick={true}
+          initialIndex={startIndex}
           onChange={(i) => setActive(i)}
           onSelect={(i) => {
             // Clicking the chatbot card makes the Strands bubble pulse.
