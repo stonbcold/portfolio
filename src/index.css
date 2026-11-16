@@ -399,17 +399,14 @@ section.block {
 
 /* About: text + wandering butterfly (Lottie) */
 .about-row {
-  display: flex;
-  align-items: stretch;
-  gap: 32px;
-}
-.about-row .statement-block {
-  flex: 0 1 auto;
-}
-.butterfly-zone {
   position: relative;
-  flex: 1 1 280px;
-  min-height: 260px;
+  min-height: 340px;
+}
+/* Butterflies fly over the whole row, text included, without blocking it. */
+.butterfly-zone {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   pointer-events: none;
 }
 .butterfly {
@@ -438,12 +435,8 @@ section.block {
 }
 @media (max-width: 760px) {
   .about-row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .butterfly-zone {
-    flex: none;
-    min-height: 180px;
+    min-height: 0;
+    padding-bottom: 200px;
   }
 }
 
