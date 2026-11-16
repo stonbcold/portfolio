@@ -654,6 +654,15 @@ section.block {
   color: var(--accent);
   padding-left: 8px;
 }
+.cap-col .cap-note {
+  display: block;
+  margin-top: 2px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+}
 .cap-col li span {
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;

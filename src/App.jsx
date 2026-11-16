@@ -235,7 +235,7 @@ export default function App() {
             <div className="about-row">
               <p className="statement-block">
                 <BlurText
-                  text="Je conçois et entraîne des modèles d'IA, du réseau de neurones from scratch au moteur de jeu déployé."
+                  text="Je m'entraîne à concevoir et à entraîner des modèles d'IA, du réseau de neurones from scratch au moteur de jeu déployé."
                   delay={60}
                   animateBy="words"
                 />{" "}
@@ -291,9 +291,13 @@ export default function App() {
                 <div className="cap-col" key={col.title}>
                   <h4>{col.title}</h4>
                   <ul>
-                    {col.items.map(([name, tag]) => (
+                    {col.items.map(([name, tag, note]) => (
                       <li key={name}>
-                        {name} <span>{tag}</span>
+                        <div className="cap-name">
+                          {name}
+                          {note && <small className="cap-note">{note}</small>}
+                        </div>
+                        <span>{tag}</span>
                       </li>
                     ))}
                   </ul>

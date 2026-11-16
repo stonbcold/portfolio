@@ -47,9 +47,9 @@ export const PROJECTS = [
     num: "02",
     title: "Chatbot conversationnel",
     short: "Chatbot conversationnel",
-    desc: "Assistant capable de tenir une conversation naturelle avec compréhension contextuelle. Base de réponses et historique de session stockés en JSON.",
-    meta: "Python · NLP · JSON",
-    tags: ["Python", "NLP", "JSON"],
+    desc: "Chatbot qui répond à partir d'une bibliothèque de réponses prédéfinies : il repère les mots-clés du message et choisit la réponse adaptée. Bibliothèque de réponses et historique de session stockés en JSON.",
+    meta: "Python · JSON",
+    tags: ["Python", "JSON", "Réponses prédéfinies"],
     live: false,
     gradient: "linear-gradient(135deg,#ece8f0,#e0dcec)",
     visual: (
@@ -153,7 +153,7 @@ export const SKILLS = [
   {
     title: "IA & Data",
     items: [
-      ["PyTorch", "ML"],
+      ["PyTorch", "ML", "Calcul tensoriel"],
       ["scikit-learn", "ML"],
       ["NumPy / Pandas", "Data"],
       ["Deep Learning", "Focus"],
@@ -224,7 +224,7 @@ export const PATH = [
     place: "Projets personnels & exploration",
     desc: "Développement de plusieurs projets — chatbot, réseau neuronal, moteur d'échecs CNN, jeu UE5 — pour consolider mes compétences en backend, full-stack et IA.",
     missions: [
-      "Chatbot conversationnel avec historique de session en JSON",
+      "Chatbot basé sur une bibliothèque de réponses prédéfinies en JSON",
       "Réseau de neurones codé from scratch",
       "Moteur d'échecs basé sur un CNN, entraîné sur des parties réelles",
       "Recréation d'un jeu en Java, physique et collisions comprises",
