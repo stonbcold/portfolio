@@ -402,7 +402,11 @@ section.block {
   position: relative;
   min-height: 340px;
 }
-/* Butterflies fly over the whole row, text included, without blocking it. */
+/* Butterflies fly over "Qui suis-je ?" and "À propos", text included,
+   without blocking it. */
+.butterfly-area {
+  position: relative;
+}
 .butterfly-zone {
   position: absolute;
   inset: 0;

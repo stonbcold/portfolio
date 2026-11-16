@@ -196,6 +196,8 @@ export default function App() {
         </section>
 
 
+        {/* PRÉSENTATION + ABOUT share one flight zone for the butterflies */}
+        <div className="butterfly-area">
         {/* PRÉSENTATION */}
         <section className="block" id="intro">
           <div className="container">
@@ -245,10 +247,11 @@ export default function App() {
                   />
                 </span>
               </p>
-              <Butterfly />
             </div>
           </div>
         </section>
+          <Butterfly />
+        </div>
 
         {/* WORK */}
         <Work dark={dark} />
