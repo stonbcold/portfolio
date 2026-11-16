@@ -266,14 +266,7 @@ export default function App() {
             </div>
             <div className="path-list">
               {PATH.map((p) => (
-                <div className="path-row" key={p.title}>
-                  <div className="path-date">{p.date}</div>
-                  <div>
-                    <h3>{p.title}</h3>
-                    <div className="place">{p.place}</div>
-                    <p>{p.desc}</p>
-                  </div>
-                </div>
+                <PathRow key={p.title} item={p} />
               ))}
             </div>
           </div>
@@ -367,6 +360,71 @@ export default function App() {
         </footer>
       </div>
     </>
+  );
+}
+
+/* ====== PARCOURS: row with expandable missions & tools ====== */
+function PathRow({ item }) {
+  const [open, setOpen] = useState(false);
+  const hasDetails = item.missions?.length || item.tools?.length;
+  const panelId = `path-${item.title.replace(/\W+/g, "-").toLowerCase()}`;
+
+  return (
+    <div className={`path-row${open ? " is-open" : ""}`}>
+      <div className="path-date">{item.date}</div>
+      <div>
+        <h3>{item.title}</h3>
+        <div className="place">{item.place}</div>
+        <p>{item.desc}</p>
+
+        {hasDetails && (
+          <>
+            <button
+              type="button"
+              className="path-toggle"
+              aria-expanded={open}
+              aria-controls={panelId}
+              onClick={() => setOpen((o) => !o)}
+            >
+              {open ? "Masquer les détails" : "Missions & outils"}
+              <svg
+                className="path-arrow"
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
+                <polyline points="2 4 6 8 10 4" />
+              </svg>
+            </button>
+
+            <div className="path-details" id={panelId}>
+              <div className="path-details-inner">
+                {item.missions?.length > 0 && (
+                  <ul className="path-missions">
+                    {item.missions.map((m) => (
+                      <li key={m}>{m}</li>
+                    ))}
+                  </ul>
+                )}
+                {item.tools?.length > 0 && (
+                  <div className="path-tools">
+                    {item.tools.map((t) => (
+                      <span className="work-tag" key={t}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   );
 }
 

@@ -701,6 +701,77 @@ section.block {
   line-height: 1.6;
   max-width: 60ch;
 }
+.path-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+.path-toggle:hover,
+.path-toggle:focus-visible {
+  color: var(--ink);
+}
+.path-arrow {
+  transition: transform 0.4s var(--ease);
+}
+.path-row.is-open .path-arrow {
+  transform: rotate(180deg);
+}
+.path-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--ease);
+}
+.path-row.is-open .path-details {
+  grid-template-rows: 1fr;
+}
+.path-details-inner {
+  overflow: hidden;
+  min-height: 0;
+  visibility: hidden;
+  transition: visibility 0s 0.45s;
+}
+.path-row.is-open .path-details-inner {
+  visibility: visible;
+  transition: visibility 0s;
+}
+.path-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+.path-missions {
+  list-style: none;
+  margin: 18px 0 16px;
+  max-width: 60ch;
+}
+.path-missions li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.path-missions li + li {
+  margin-top: 6px;
+}
+.path-missions li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
 
 /* ====== CONTACT ====== */
 .contact {
