@@ -26,6 +26,21 @@ export default function App() {
     () => document.documentElement.getAttribute("data-theme") || "dark"
   );
   const dark = theme === "dark";
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Close the mobile menu with Escape, or when the screen gets wider.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e) => e.key === "Escape" && setMenuOpen(false);
+    const mq = window.matchMedia("(min-width: 761px)");
+    const onWide = () => mq.matches && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onWide);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onWide);
+    };
+  }, [menuOpen]);
   const toggleTheme = () => {
     const next = dark ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
@@ -126,7 +141,35 @@ export default function App() {
             <a href="#contact">Contact</a>
             <a href="cv.html" className="nav-cv">CV</a>
           </div>
+          <button
+            type="button"
+            className={`nav-burger${menuOpen ? " is-open" : ""}`}
+            aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </nav>
+
+        {/* Mobile menu (outside <nav> so it isn't affected by its blend mode) */}
+        <div
+          id="mobile-menu"
+          className={`mobile-menu${menuOpen ? " is-open" : ""}`}
+          aria-hidden={!menuOpen}
+          onClick={(e) => {
+            if (e.target.closest("a")) setMenuOpen(false);
+          }}
+        >
+          <a href="#work" tabIndex={menuOpen ? 0 : -1}>Projets</a>
+          <a href="#caps" tabIndex={menuOpen ? 0 : -1}>Stack</a>
+          <a href="veille.html" tabIndex={menuOpen ? 0 : -1}>Veille</a>
+          <a href="#contact" tabIndex={menuOpen ? 0 : -1}>Contact</a>
+          <a href="cv.html" tabIndex={menuOpen ? 0 : -1}>CV</a>
+        </div>
 
         {/* HERO */}
         <section className="hero" id="top" ref={heroRef}>
